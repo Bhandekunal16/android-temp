@@ -1,0 +1,4 @@
+#Thu Mar 05 17:07:31 IST 2026
+base.0=/home/kunalbhande/Desktop/kunal/java/android-temp/app/build/intermediates/dex/release/mergeDexRelease/classes.dex
+renamed.0=classes.dex
+path.0=classes.dex

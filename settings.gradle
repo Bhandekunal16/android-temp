@@ -1,0 +1,4 @@
+
+// replace your project name 
+rootProject.name = "MyApp"
+include ':app'
