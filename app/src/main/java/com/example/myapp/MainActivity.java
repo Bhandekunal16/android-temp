@@ -5,11 +5,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import org.yaml.snakeyaml.Yaml;
-import java.io.InputStream;
-import java.util.Map;
-
-
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -26,13 +21,9 @@ protected void onCreate(Bundle savedInstanceState) {
 
     try {
 
-        InputStream input = getAssets().open("config.yml");
+       Config.load(this);
 
-        Yaml yaml = new Yaml();
-        Map<String, Object> data = yaml.load(input);
-
-        Map<String, Object> app = (Map<String, Object>) data.get("buttonTitles");
-        String name = (String) app.get("main");
+       String name = Config.get("buttonTitles.main");
 
         myButton.setOnClickListener(new View.OnClickListener() {
             @Override
