@@ -503,6 +503,10 @@
       externalAnnotations="annotations.zip"
       proguardRules="proguard.txt"/>
   <library
+      name="org.yaml:snakeyaml:2.2@jar"
+      jars="/home/kunalbhande/.gradle/caches/modules-2/files-2.1/org.yaml/snakeyaml/2.2/3af797a25458550a16bf89acc8e4ab2b7f2bfce0/snakeyaml-2.2.jar"
+      resolved="org.yaml:snakeyaml:2.2"/>
+  <library
       name="androidx.emoji2:emoji2-views-helper:1.2.0@aar"
       jars="/home/kunalbhande/.gradle/caches/transforms-4/7e85ef6ad7f3fc1c8fa61c648aff51b2/transformed/jetified-emoji2-views-helper-1.2.0/jars/classes.jar"
       resolved="androidx.emoji2:emoji2-views-helper:1.2.0"

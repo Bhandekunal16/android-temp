@@ -724,6 +724,19 @@ library {
   repo_index {
   }
 }
+library {
+  maven_library {
+    groupId: "org.yaml"
+    artifactId: "snakeyaml"
+    version: "2.2"
+  }
+  digests {
+    sha256: "\024g\223\024H\240\201v\226\256(\005\267\270\262\v\373\b&R\277\234N\372\355R\2110\334I8\233"
+  }
+  repo_index {
+    value: 1
+  }
+}
 library_dependencies {
   library_dep_index: 1
   library_dep_index: 2
@@ -1136,6 +1149,7 @@ module_dependencies {
   module_name: "base"
   dependency_index: 0
   dependency_index: 45
+  dependency_index: 60
   dependency_index: 50
 }
 repositories {

@@ -82,12 +82,12 @@
             replacement="2.2.1"/>
         <location
             file="${:app*projectDir}/build.gradle"
-            line="43"
+            line="45"
             column="20"
-            startOffset="972"
-            endLine="43"
+            startOffset="1017"
+            endLine="45"
             endColumn="70"
-            endOffset="1022"/>
+            endOffset="1067"/>
     </incident>
 
     <incident
@@ -101,12 +101,12 @@
             replacement="1.3.0"/>
         <location
             file="${:app*projectDir}/build.gradle"
-            line="47"
+            line="49"
             column="31"
-            startOffset="1099"
-            endLine="47"
+            startOffset="1144"
+            endLine="49"
             endColumn="62"
-            endOffset="1130"/>
+            endOffset="1175"/>
     </incident>
 
     <incident
@@ -120,12 +120,12 @@
             replacement="3.7.0"/>
         <location
             file="${:app*projectDir}/build.gradle"
-            line="48"
+            line="50"
             column="31"
-            startOffset="1161"
-            endLine="48"
+            startOffset="1206"
+            endLine="50"
             endColumn="75"
-            endOffset="1205"/>
+            endOffset="1250"/>
     </incident>
 
 </incidents>

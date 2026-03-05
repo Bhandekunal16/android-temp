@@ -26,6 +26,10 @@
       externalAnnotations="annotations.zip"
       proguardRules="proguard.txt"/>
   <library
+      name="org.yaml:snakeyaml:2.2@jar"
+      jars="/home/kunalbhande/.gradle/caches/modules-2/files-2.1/org.yaml/snakeyaml/2.2/3af797a25458550a16bf89acc8e4ab2b7f2bfce0/snakeyaml-2.2.jar"
+      resolved="org.yaml:snakeyaml:2.2"/>
+  <library
       name="androidx.constraintlayout:constraintlayout:2.1.4@aar"
       jars="/home/kunalbhande/.gradle/caches/transforms-4/6b233d9d4aa0ec43b2691cc95d25ea95/transformed/constraintlayout-2.1.4/jars/classes.jar"
       resolved="androidx.constraintlayout:constraintlayout:2.1.4"
