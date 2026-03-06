@@ -1,9 +1,24 @@
-compiler='./gradlew'
+#!/bin/bash
 
-$compiler clean &&
+compiler="./gradlew"
+command=$(emulator -list-avds | head -n 1)
 
-$compiler build --stacktrace &&
+build() {
+    $compiler clean &&
+    $compiler build --stacktrace &&
+    $compiler assembleDebug &&
+    $compiler installDebug
+}
 
-$compiler assembleDebug &&
+if [ "$1" = "build" ]; then
+    build
 
-$compiler installDebug 
+elif [ "$1" = "startup" ]; then
+    gradle wrapper
+
+elif [ "$1" = "run" ]; then 
+    emulator -avd "$command"
+
+else
+    echo "unknown command"
+fi
