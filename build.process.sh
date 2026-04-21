@@ -4,6 +4,8 @@ compiler="./gradlew"
 command=$(emulator -list-avds | head -n 1)
 
 build() {
+    ktlint --format && 
+    adb uninstall com.example.myapp &
     $compiler clean &&
     $compiler build --stacktrace &&
     $compiler assembleDebug &&

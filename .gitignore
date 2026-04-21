@@ -1,5 +1,14 @@
-.gradle/*
+.gradle/
+build/
+**/build/
 
-gradle/
+.idea/
+*.iml
 
-gradlew
+local.properties
+
+.DS_Store
+Thumbs.db
+
+*.apk
+*.aab
