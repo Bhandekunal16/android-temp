@@ -2,8 +2,8 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
 }
-android {
 
+android {
     namespace 'com.example.myapp'
     compileSdk 34
 
@@ -13,7 +13,6 @@ android {
         targetSdk 34
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -39,7 +38,7 @@ android {
         targetCompatibility JavaVersion.VERSION_17
     }
 
-     kotlinOptions {                     // 🔥 ADD THIS BLOCK
+     kotlinOptions {                   
         jvmTarget = '17'
     }
 }
@@ -48,17 +47,11 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.12.0'
     implementation 'androidx.activity:activity-compose:1.8.2'
     implementation "androidx.navigation:navigation-compose:2.7.7"
-
-    implementation 'com.google.android.material:material:1.11.0'
-
     implementation 'androidx.compose.ui:ui:1.5.1'
     implementation 'androidx.compose.material3:material3:1.1.2'
     implementation 'androidx.compose.ui:ui-tooling-preview:1.5.1'
+    implementation 'com.google.android.material:material:1.11.0'
 
     debugImplementation 'androidx.compose.ui:ui-tooling:1.5.1'
-
-    
-
-
     testImplementation 'junit:junit:4.13.2'
 }
