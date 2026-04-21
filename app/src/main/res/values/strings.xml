@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="Dashboard">Dashboard</string>
-    <string name="dashboardGreeting">"Welcome, %1$s 🎉"</string>
+    <string name="dashboardGreeting">Welcome, %1$s 🎉</string>
+    <string name="enterUsername">Please Enter user name</string>
+    <string name="DashboardNav">Go to Dashboard</string>
 </resources>

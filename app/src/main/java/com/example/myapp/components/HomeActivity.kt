@@ -9,6 +9,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.myapp.NotificationService
+import com.example.myapp.R
+import com.example.myapp.parseString
 
 @Composable
 fun HomeScreen(navController: NavController) {
@@ -26,7 +28,7 @@ fun HomeScreen(navController: NavController) {
         TextField(
             value = input,
             onValueChange = { input = it },
-            label = { Text("Please Enter UserName") },
+            label = { Text(parseString(R.string.enterUsername)) },
         )
 
         Button(onClick = {
@@ -35,7 +37,7 @@ fun HomeScreen(navController: NavController) {
             navController.navigate("dashboard/$input")
             input = ""
         }) {
-            Text("Go to Dashboard")
+            Text(parseString(R.string.DashboardNav))
         }
     }
 }
