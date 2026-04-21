@@ -6,6 +6,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.myapp.R
+import com.example.myapp.parseString
 
 @Composable
 fun DashboardScreen(username: String) {
@@ -15,12 +17,12 @@ fun DashboardScreen(username: String) {
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
-            text = "Dashboard",
+            text = parseString(R.string.Dashboard),
             style = MaterialTheme.typography.headlineMedium,
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        Text("Welcome, $username 🎉")
+        Text(parseString(R.string.dashboardGreeting, username))
     }
 }
