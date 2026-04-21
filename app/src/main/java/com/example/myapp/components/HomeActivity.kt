@@ -8,7 +8,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-
 import com.example.myapp.NotificationService
 import com.example.myapp.R
 import com.example.myapp.parseString
@@ -33,6 +32,14 @@ fun HomeScreen(navController: NavController) {
         )
 
         Button(onClick = {
+            if (input.isBlank()) {
+                NotificationService.showNotification(
+                    context,
+                    "please enter valid username",
+                    "error",
+                )
+                return@Button
+            }
             NotificationService.showNotification(context, "welcome $input", "Hello 👋")
             text = "Hello Welcome $input!"
             navController.navigate("dashboard/$input")
