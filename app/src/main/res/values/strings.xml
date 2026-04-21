@@ -3,5 +3,5 @@
     <string name="Dashboard">Dashboard</string>
     <string name="dashboardGreeting">Welcome, %1$s 🎉</string>
     <string name="enterUsername">Please Enter user name</string>
-    <string name="DashboardNav">Go to Dashboard</string>
+    <string name="DashboardNav">Submit</string>
 </resources>
