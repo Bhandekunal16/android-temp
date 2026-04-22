@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.myapp.NotificationService
 import com.example.myapp.R
+import com.example.myapp.ToastService
 import com.example.myapp.parseString
 
 fun checkEmailRegex(input: String): Boolean = Patterns.EMAIL_ADDRESS.matcher(input).matches()
@@ -28,7 +29,7 @@ fun HomeScreen(navController: NavController) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Text(text = text, modifier = Modifier.padding(16.dp))
+        Text(text = text, modifier = Modifier.padding(16.dp), style = MaterialTheme.typography.headlineMedium)
 
         TextField(
             value = input,
@@ -39,7 +40,7 @@ fun HomeScreen(navController: NavController) {
         Button(
             onClick = {
                 if (input.isBlank() || !checkEmailRegex(input)) {
-                    Toast.makeText(context, "please enter valid email", Toast.LENGTH_SHORT).show()
+                    ToastService.toast(context, "please enter valid email")
                     NotificationService.showNotification(
                         context,
                         "please enter valid email",
@@ -47,8 +48,8 @@ fun HomeScreen(navController: NavController) {
                     )
                     return@Button
                 }
+                ToastService.toast(context, "Hello 👋")
                 NotificationService.showNotification(context, "welcome $input", "Hello 👋")
-                Toast.makeText(context, "Hello 👋", Toast.LENGTH_SHORT).show()
                 text = "Hello Welcome $input!"
                 navController.navigate("dashboard/$input")
                 input = ""
