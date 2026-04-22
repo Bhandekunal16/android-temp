@@ -1,6 +1,7 @@
 package com.example.myapp.components
 
 import android.util.Patterns
+import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -38,6 +39,7 @@ fun HomeScreen(navController: NavController) {
         Button(
             onClick = {
                 if (input.isBlank() || !checkEmailRegex(input)) {
+                    Toast.makeText(context, "please enter valid email", Toast.LENGTH_SHORT).show()
                     NotificationService.showNotification(
                         context,
                         "please enter valid email",
@@ -46,6 +48,7 @@ fun HomeScreen(navController: NavController) {
                     return@Button
                 }
                 NotificationService.showNotification(context, "welcome $input", "Hello 👋")
+                Toast.makeText(context, "Hello 👋", Toast.LENGTH_SHORT).show()
                 text = "Hello Welcome $input!"
                 navController.navigate("dashboard/$input")
                 input = ""
