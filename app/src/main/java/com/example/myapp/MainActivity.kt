@@ -7,10 +7,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavType
 import androidx.navigation.compose.*
+import androidx.navigation.navArgument
+import com.example.myapp.components.AddPasswordScreen
 import com.example.myapp.components.AuthScreen
 import com.example.myapp.components.DashboardScreen
 import com.example.myapp.components.HomeScreen
+import com.example.myapp.components.VaultListScreen
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,9 +40,29 @@ fun MyApp() {
             HomeScreen(navController)
         }
 
+        composable("vault") {
+            VaultListScreen(navController)
+        }
+        composable(
+            route = "add?itemId={itemId}",
+            arguments =
+                listOf(
+                    navArgument("itemId") {
+                        type = NavType.StringType
+                        nullable = true
+                        defaultValue = null
+                    },
+                ),
+        ) { backStackEntry ->
+
+            val itemId = backStackEntry.arguments?.getString("itemId")
+
+            AddPasswordScreen(navController, itemId)
+        }
+
         composable("dashboard/{username}") { backStackEntry ->
             val username = backStackEntry.arguments?.getString("username") ?: ""
-            DashboardScreen(username)
+            DashboardScreen(username, navController)
         }
     }
 }
