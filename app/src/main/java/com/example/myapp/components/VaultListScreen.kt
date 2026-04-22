@@ -56,6 +56,10 @@ fun VaultListScreen(navController: NavController) {
                                 .fillMaxWidth(),
                         shape = MaterialTheme.shapes.large,
                         elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
+                        colors =
+                            CardDefaults.cardColors(
+                                containerColor = MaterialTheme.colorScheme.surface,
+                            ),
                     ) {
                         Column(modifier = Modifier.padding(16.dp)) {
                             // 📱 App name
