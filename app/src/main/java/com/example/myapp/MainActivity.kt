@@ -3,14 +3,16 @@ package com.example.myapp
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.*
+import com.example.myapp.components.AuthScreen
 import com.example.myapp.components.DashboardScreen
 import com.example.myapp.components.HomeScreen
 
-class MainActivity : ComponentActivity() {
+class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         NotificationService.requestNotificationPermission(this)
@@ -24,8 +26,12 @@ fun MyApp() {
 
     NavHost(
         navController = navController,
-        startDestination = "home",
+        startDestination = "auth",
     ) {
+        composable("auth") {
+            AuthScreen(navController)
+        }
+
         composable("home") {
             HomeScreen(navController)
         }
