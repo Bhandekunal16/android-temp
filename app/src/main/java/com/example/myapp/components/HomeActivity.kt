@@ -31,20 +31,23 @@ fun HomeScreen(navController: NavController) {
             label = { Text(parseString(R.string.enterUsername)) },
         )
 
-        Button(onClick = {
-            if (input.isBlank()) {
-                NotificationService.showNotification(
-                    context,
-                    "please enter valid username",
-                    "error",
-                )
-                return@Button
-            }
-            NotificationService.showNotification(context, "welcome $input", "Hello 👋")
-            text = "Hello Welcome $input!"
-            navController.navigate("dashboard/$input")
-            input = ""
-        }) {
+        Button(
+            onClick = {
+                if (input.isBlank()) {
+                    NotificationService.showNotification(
+                        context,
+                        "please enter valid username",
+                        "error",
+                    )
+                    return@Button
+                }
+                NotificationService.showNotification(context, "welcome $input", "Hello 👋")
+                text = "Hello Welcome $input!"
+                navController.navigate("dashboard/$input")
+                input = ""
+            },
+            enabled = input.isNotBlank(),
+        ) {
             Text(parseString(R.string.DashboardNav))
         }
     }
