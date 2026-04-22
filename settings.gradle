@@ -1,4 +1,4 @@
 
 // replace your project name 
-rootProject.name = "MyApp"
+rootProject.name = "Password Manager"
 include ':app'
