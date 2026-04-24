@@ -2,8 +2,11 @@ package com.example.myapp.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -28,6 +31,7 @@ fun AddPasswordScreen(
         Text(
             text = if (itemId == null) "Add Credential" else "Edit Credential",
             style = MaterialTheme.typography.headlineMedium,
+            color = MaterialTheme.colorScheme.secondary,
         )
 
         Spacer(modifier = Modifier.height(16.dp))
