@@ -20,7 +20,6 @@ import com.example.myapp.R
 import com.example.myapp.ToastService
 import com.example.myapp.parseString
 
-
 fun getDeviceName(): String {
     val manufacturer = Build.MANUFACTURER
     val model = Build.MODEL

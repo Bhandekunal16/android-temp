@@ -31,7 +31,7 @@ fun DashboardScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        Text(parseString(R.string.dashboardGreeting, username), color = MaterialTheme.colorScheme.secondary)
+        Text(parseString(R.string.dashboardGreeting, username), color = MaterialTheme.colorScheme.tertiary)
 
         Spacer(modifier = Modifier.height(24.dp))
 

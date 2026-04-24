@@ -49,7 +49,7 @@ fun VaultListScreen(navController: NavController) {
             Text(
                 text = stringResource(R.string.NoPasswordsSaved),
                 modifier = Modifier.padding(16.dp),
-                color = MaterialTheme.colorScheme.secondary,
+                color = MaterialTheme.colorScheme.tertiary,
             )
         } else {
             LazyColumn {
@@ -101,6 +101,7 @@ fun VaultListScreen(navController: NavController) {
                                 }
                                 Button(
                                     onClick = {
+                                        // navController.navigate("add?itemId=${item.id}")
                                         if (activity == null) return@Button
 
                                         if (!isBiometricAvailable(context)) {
