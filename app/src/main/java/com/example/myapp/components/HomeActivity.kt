@@ -1,5 +1,6 @@
 package com.example.myapp.components
 
+import android.os.Build
 import android.util.Patterns
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
@@ -19,12 +20,22 @@ import com.example.myapp.R
 import com.example.myapp.ToastService
 import com.example.myapp.parseString
 
-fun checkEmailRegex(input: String): Boolean = Patterns.EMAIL_ADDRESS.matcher(input).matches()
+
+fun getDeviceName(): String {
+    val manufacturer = Build.MANUFACTURER
+    val model = Build.MODEL
+    return if (model.startsWith(manufacturer, ignoreCase = true)) {
+        model
+    } else {
+        "$manufacturer $model"
+    }
+}
 
 @Composable
 fun HomeScreen(navController: NavController) {
+    val deviceName = remember { getDeviceName() }
     var text by remember { mutableStateOf("Hello Welcome!") }
-    var input by remember { mutableStateOf("") }
+    var input by remember { mutableStateOf(deviceName) }
     val context = LocalContext.current
 
     Column(
@@ -47,11 +58,11 @@ fun HomeScreen(navController: NavController) {
 
         Button(
             onClick = {
-                if (input.isBlank() || !checkEmailRegex(input)) {
-                    ToastService.toast(context, "please enter valid email")
+                if (input.isBlank()) {
+                    ToastService.toast(context, "please enter valid user name")
                     NotificationService.showNotification(
                         context,
-                        "please enter valid email",
+                        "please enter valid user name",
                         "error",
                     )
                     return@Button
