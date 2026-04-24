@@ -18,41 +18,89 @@ fun DashboardScreen(
     username: String,
     navController: NavController,
 ) {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        Text(
-            text = parseString(R.string.Dashboard),
-            style = MaterialTheme.typography.headlineMedium,
-            color = MaterialTheme.colorScheme.primary,
-        )
+    Scaffold(
+        containerColor = MaterialTheme.colorScheme.background,
+    ) { padding ->
 
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Text(parseString(R.string.dashboardGreeting, username), color = MaterialTheme.colorScheme.tertiary)
-
-        Spacer(modifier = Modifier.height(24.dp))
-
-        // 🔐 Go to Vault List
-        Button(
-            onClick = {
-                navController.navigate("vault")
-            },
+        Column(
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(padding)
+                    .padding(20.dp),
         ) {
-            Text("Open Vault")
+            Text(
+                text = "Dashboard",
+                style = MaterialTheme.typography.headlineMedium,
+                color = MaterialTheme.colorScheme.onBackground,
+            )
+
+            Spacer(modifier = Modifier.height(6.dp))
+
+            Text(
+                text = "Welcome back, \n $username 👋",
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            DashboardItemCard(
+                title = "Password Vault",
+                description = "View all saved passwords",
+                onClick = { navController.navigate("vault") },
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            DashboardItemCard(
+                title = "Add Password",
+                description = "Save new credentials securely",
+                onClick = { navController.navigate("add") },
+            )
         }
+    }
+}
 
-        Spacer(modifier = Modifier.height(12.dp))
-
-        // ➕ Direct Add Entry
-        Button(
-            onClick = {
-                navController.navigate("add")
-            },
+@Composable
+fun DashboardItemCard(
+    title: String,
+    description: String,
+    onClick: () -> Unit,
+) {
+    Card(
+        onClick = onClick,
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .height(110.dp),
+        shape = MaterialTheme.shapes.large,
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+        colors =
+            CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.surfaceVariant,
+            ),
+    ) {
+        Column(
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(16.dp),
+            verticalArrangement = Arrangement.Center,
         ) {
-            Text("Add Password")
+            Text(
+                text = title,
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onSurface,
+            )
+
+            Spacer(modifier = Modifier.height(6.dp))
+
+            Text(
+                text = description,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
         }
     }
 }
