@@ -42,13 +42,13 @@ fun AddPasswordScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        TextField(value = app, modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp), onValueChange = {
+        TextField(value = app, modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp), onValueChange = {
             app = it
         }, label = { Text("App") })
-        TextField(value = username, modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp), onValueChange = {
+        TextField(value = username, modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp), onValueChange = {
             username = it
         }, label = { Text("Username") })
-        TextField(value = password, modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp), onValueChange = {
+        TextField(value = password, modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp), onValueChange = {
             password = it
         }, label = { Text("Password") })
 
