@@ -13,13 +13,18 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.myapp.R
+import com.example.myapp.ToastService
+import com.example.myapp.components.findActivity
+import com.example.myapp.isBiometricAvailable
 import com.example.myapp.parseString
+import com.example.myapp.showBiometricPrompt
 import com.example.myapp.vault.VaultItem
 import com.example.myapp.vault.VaultManager
 
 @Composable
 fun VaultListScreen(navController: NavController) {
     val context = LocalContext.current
+    val activity = context.findActivity()
 
     var items by remember { mutableStateOf<List<VaultItem>>(emptyList()) }
     var refreshTrigger by remember { mutableStateOf(0) }
@@ -103,8 +108,27 @@ fun VaultListScreen(navController: NavController) {
                                 }
                                 Button(
                                     onClick = {
-                                        VaultManager.delete(context, item.id)
-                                        refreshTrigger++
+                                        if (activity == null) return@Button
+
+                                        if (!isBiometricAvailable(context)) {
+                                            ToastService.toast(context, "Biometric not available ❌")
+                                            return@Button
+                                        }
+
+                                        showBiometricPrompt(
+                                            activity = activity,
+                                            onSuccess = {
+                                                VaultManager.delete(context, item.id)
+                                                refreshTrigger++
+                                                ToastService.toast(context, "Deleted ✅")
+                                            },
+                                            onError = {
+                                                ToastService.toast(context, "Auth error ❌")
+                                            },
+                                            onFailed = {
+                                                ToastService.toast(context, "Auth failed ❌")
+                                            },
+                                        )
                                     },
                                     colors =
                                         ButtonDefaults.buttonColors(
