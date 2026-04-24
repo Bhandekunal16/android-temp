@@ -19,6 +19,7 @@ import com.example.myapp.NotificationService
 import com.example.myapp.R
 import com.example.myapp.ToastService
 import com.example.myapp.parseString
+import com.example.myapp.storage.UserPrefs
 
 fun getDeviceName(): String {
     val manufacturer = Build.MANUFACTURER
@@ -36,6 +37,15 @@ fun HomeScreen(navController: NavController) {
     var text by remember { mutableStateOf("Hello Welcome!") }
     var input by remember { mutableStateOf(deviceName) }
     val context = LocalContext.current
+    val savedUser = remember { UserPrefs.getUsername(context) }
+
+    LaunchedEffect(Unit) {
+        if (!savedUser.isNullOrBlank()) {
+            navController.navigate("dashboard/$savedUser") {
+                popUpTo("home") { inclusive = true }
+            }
+        }
+    }
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -66,6 +76,7 @@ fun HomeScreen(navController: NavController) {
                     )
                     return@Button
                 }
+                UserPrefs.saveUsername(context, input)
                 ToastService.toast(context, "Hello 👋")
                 NotificationService.showNotification(context, "welcome $input", "Hello 👋")
                 text = "Hello Welcome $input!"
