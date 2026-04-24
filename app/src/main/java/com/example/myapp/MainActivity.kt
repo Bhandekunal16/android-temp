@@ -107,15 +107,15 @@ fun MyAppTheme(
     val colorScheme =
         if (darkTheme) {
             darkColorScheme(
-                primary = Color(0xFF4DB6AC),
+                primary = Color(0xFF002F34),
                 onPrimary = Color(0xFF00201A),
                 secondary = Color(0xFF9575CD),
                 onSecondary = Color(0xFF1A1333),
                 tertiary = Color(0xFFFFB74D),
                 onTertiary = Color(0xFF2E1B00),
-                background = Color(0xFF0F1115),
-                onBackground = Color(0xFFE6EDF3),
-                surface = Color(0xFF161B22),
+                background = Color(0xFF0B141A),
+                onBackground = Color(0xFFE9EDEF),
+                surface = Color(0xFF2D333B),
                 onSurface = Color(0xFFE6EDF3),
                 surfaceVariant = Color(0xFF21262D),
                 outline = Color(0xFF8B949E),
@@ -124,15 +124,15 @@ fun MyAppTheme(
             )
         } else {
             lightColorScheme(
-                primary = Color(0xFF5E35B1),
+                primary = Color(0xFF002F34),
                 onPrimary = Color.White,
                 secondary = Color(0xFF00838F),
                 onSecondary = Color.White,
                 tertiary = Color(0xFFFFA726),
                 onTertiary = Color.Black,
-                background = Color(0xFFF3E5F5),
-                onBackground = Color(0xFF1A1A1A),
-                surface = Color(0xFFFFFFFF),
+                background = Color(0xFFE5DDD5), // WhatsApp chat bg
+                onBackground = Color(0xFF111B21),
+                surface = Color(0xFF2D333B),
                 onSurface = Color(0xFF1A1A1A),
                 surfaceVariant = Color(0xFFE1BEE7),
                 outline = Color(0xFF7B1FA2),
