@@ -11,6 +11,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.myapp.ToastService
 import com.example.myapp.vault.VaultItem
 import com.example.myapp.vault.VaultManager
 
@@ -55,7 +56,10 @@ fun AddPasswordScreen(
 
         Button(
             onClick = {
-                if (itemId == null) {
+                if (app.isBlank() || username.isBlank() || password.isBlank()) {
+                    ToastService.toast(context, "Enter all Required data! ❌")
+                    return@Button
+                } else if (itemId == null) {
                     // ➕ ADD
                     VaultManager.save(
                         context,
