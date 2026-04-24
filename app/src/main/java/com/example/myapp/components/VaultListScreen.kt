@@ -49,7 +49,7 @@ fun VaultListScreen(navController: NavController) {
             Text(
                 text = stringResource(R.string.NoPasswordsSaved),
                 modifier = Modifier.padding(16.dp),
-                color = MaterialTheme.colorScheme.tertiary,
+                color = MaterialTheme.colorScheme.surfaceVariant,
             )
         } else {
             LazyColumn {
