@@ -5,6 +5,7 @@ import androidx.compose.material3.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -27,7 +28,11 @@ fun AddPasswordScreen(
     var username by remember { mutableStateOf(existingItem?.username ?: "") }
     var password by remember { mutableStateOf(existingItem?.password ?: "") }
 
-    Column(modifier = Modifier.padding(16.dp)) {
+    Column(
+        modifier = Modifier.padding(16.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
         Text(
             text = if (itemId == null) "Add Credential" else "Edit Credential",
             style = MaterialTheme.typography.headlineMedium,
@@ -36,9 +41,15 @@ fun AddPasswordScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        TextField(value = app, onValueChange = { app = it }, label = { Text("App") })
-        TextField(value = username, onValueChange = { username = it }, label = { Text("Username") })
-        TextField(value = password, onValueChange = { password = it }, label = { Text("Password") })
+        TextField(value = app, modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp), onValueChange = {
+            app = it
+        }, label = { Text("App") })
+        TextField(value = username, modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp), onValueChange = {
+            username = it
+        }, label = { Text("Username") })
+        TextField(value = password, modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp), onValueChange = {
+            password = it
+        }, label = { Text("Password") })
 
         Spacer(modifier = Modifier.height(16.dp))
 
