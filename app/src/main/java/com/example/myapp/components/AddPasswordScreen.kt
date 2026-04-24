@@ -36,7 +36,7 @@ fun AddPasswordScreen(
         Text(
             text = if (itemId == null) "Add Credential" else "Edit Credential",
             style = MaterialTheme.typography.headlineMedium,
-            color = MaterialTheme.colorScheme.surfaceVariant,
+            color = MaterialTheme.colorScheme.primary,
         )
 
         Spacer(modifier = Modifier.height(16.dp))

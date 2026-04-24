@@ -40,7 +40,7 @@ fun AuthScreen(navController: NavController) {
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text("Password Manager", style = MaterialTheme.typography.headlineMedium, color = MaterialTheme.colorScheme.primary)
-        Text("Authentication Required", color = MaterialTheme.colorScheme.surfaceVariant)
+        Text("Authentication Required", color = MaterialTheme.colorScheme.primary)
 
         Spacer(modifier = Modifier.height(20.dp))
 
