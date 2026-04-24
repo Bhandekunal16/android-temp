@@ -1,5 +1,6 @@
 package com.example.myapp
 
+import android.app.Activity
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -11,8 +12,11 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavType
@@ -104,43 +108,55 @@ fun MyAppTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit,
 ) {
-    val colorScheme =
-        if (darkTheme) {
-            darkColorScheme(
-                primary = Color(0xFF002F34),
-                onPrimary = Color(0xFF00201A),
-                secondary = Color(0xFF9575CD),
-                onSecondary = Color(0xFF1A1333),
-                tertiary = Color(0xFFFFB74D),
-                onTertiary = Color(0xFF2E1B00),
-                background = Color(0xFF0B141A),
-                onBackground = Color(0xFFE9EDEF),
-                surface = Color(0xFF2D333B),
-                onSurface = Color(0xFFE6EDF3),
-                surfaceVariant = Color(0xFF21262D),
-                outline = Color(0xFF8B949E),
-                error = Color(0xFFFF6B6B),
-                onError = Color.White,
-            )
-        } else {
-            lightColorScheme(
-                primary = Color(0xFF002F34),
-                onPrimary = Color.White,
-                secondary = Color(0xFF00838F),
-                onSecondary = Color.White,
-                tertiary = Color(0xFFFFA726),
-                onTertiary = Color.Black,
-                background = Color(0xFFE5DDD5), // WhatsApp chat bg
-                onBackground = Color(0xFF111B21),
-                surface = Color(0xFF2D333B),
-                onSurface = Color(0xFF1A1A1A),
-                surfaceVariant = Color(0xFFE1BEE7),
-                outline = Color(0xFF7B1FA2),
-            )
-        }
+    val ObservatoryDark =
+        darkColorScheme(
+            primary = Color(0xFF00D0A8),
+            onPrimary = Color.Black,
+            primaryContainer = Color(0xFF06695A),
+            onPrimaryContainer = Color(0xFF8BFFDF),
+            secondary = Color(0xFF00A88B),
+            onSecondary = Color.White,
+            background = Color(0xFF00352F),
+            onBackground = Color(0xFFEEFFFA),
+            surface = Color(0xFF0A574B),
+            onSurface = Color(0xFFEEFFFA),
+            surfaceVariant = Color(0xFF06695A),
+            onSurfaceVariant = Color(0xFFC5FFEE),
+            outline = Color(0xFF008E77),
+            error = Color(0xFFFF6B6B),
+            onError = Color.White,
+        )
+
+    val ObservatoryLight =
+        lightColorScheme(
+            primary = Color(0xFF008E77),
+            onPrimary = Color.White,
+            primaryContainer = Color(0xFF8BFFDF),
+            onPrimaryContainer = Color(0xFF00352F),
+            secondary = Color(0xFF00A88B),
+            onSecondary = Color.White,
+            background = Color(0xFFEEFFFA),
+            onBackground = Color(0xFF00352F),
+            surface = Color(0xFFFFFFFF),
+            onSurface = Color(0xFF00352F),
+            surfaceVariant = Color(0xFFC5FFEE),
+            onSurfaceVariant = Color(0xFF0A574B),
+            outline = Color(0xFF00A88B),
+            error = Color(0xFFD32F2F),
+            onError = Color.White,
+        )
+
+    val colors = if (darkTheme) ObservatoryDark else ObservatoryLight
+
+    // ✅ FIXED STATUS BAR
+    val view = LocalView.current
+    SideEffect {
+        val window = (view.context as Activity).window
+        window.statusBarColor = colors.primary.toArgb()
+    }
 
     MaterialTheme(
-        colorScheme = colorScheme,
+        colorScheme = colors,
         content = content,
     )
 }
