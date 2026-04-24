@@ -4,4 +4,10 @@
     <string name="dashboardGreeting">Welcome, %1$s 🎉</string>
     <string name="enterUsername">Please Enter user name</string>
     <string name="DashboardNav">Submit</string>
+    <string name="Hide">Hide</string>
+    <string name="Show">Show</string>
+    <string name="Edit">Edit</string>
+    <string name="Delete">Delete</string>
+    <string name="AddPassword">Add Password</string>
+    <string name="NoPasswordsSaved">No passwords saved</string>
 </resources>

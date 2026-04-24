@@ -9,8 +9,11 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.myapp.R
+import com.example.myapp.parseString
 import com.example.myapp.vault.VaultItem
 import com.example.myapp.vault.VaultManager
 
@@ -35,11 +38,11 @@ fun VaultListScreen(navController: NavController) {
             onClick = { navController.navigate("add") },
             modifier = Modifier.padding(16.dp),
         ) {
-            Text("Add Password")
+            Text(text = stringResource(R.string.AddPassword))
         }
         if (items.isEmpty()) {
             Text(
-                text = "No passwords saved",
+                text = stringResource(R.string.NoPasswordsSaved),
                 modifier = Modifier.padding(16.dp),
                 color = MaterialTheme.colorScheme.secondary,
             )
@@ -89,14 +92,14 @@ fun VaultListScreen(navController: NavController) {
                                 OutlinedButton(
                                     onClick = { showPassword = !showPassword },
                                 ) {
-                                    Text(if (showPassword) "Hide" else "Show")
+                                    Text(text = if (showPassword) stringResource(R.string.Hide) else stringResource(R.string.Show))
                                 }
                                 Button(
                                     onClick = {
                                         navController.navigate("add?itemId=${item.id}")
                                     },
                                 ) {
-                                    Text("Edit")
+                                    Text(text = stringResource(R.string.Edit))
                                 }
                                 Button(
                                     onClick = {
@@ -108,7 +111,7 @@ fun VaultListScreen(navController: NavController) {
                                             containerColor = MaterialTheme.colorScheme.error,
                                         ),
                                 ) {
-                                    Text("Delete")
+                                    Text(text = stringResource(R.string.Delete))
                                 }
                             }
                         }
