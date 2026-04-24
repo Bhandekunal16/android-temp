@@ -31,15 +31,12 @@ fun VaultListScreen(navController: NavController) {
     }
 
     Column(modifier = Modifier.fillMaxSize()) {
-        // ➕ Add button
         Button(
             onClick = { navController.navigate("add") },
             modifier = Modifier.padding(16.dp),
         ) {
             Text("Add Password")
         }
-
-        // 📋 Empty state
         if (items.isEmpty()) {
             Text(
                 text = "No passwords saved",
@@ -50,7 +47,6 @@ fun VaultListScreen(navController: NavController) {
             LazyColumn {
                 items(items, key = { it.id }) { item ->
 
-                    // ✅ Per-item state
                     var showPassword by remember { mutableStateOf(false) }
 
                     Card(
@@ -62,11 +58,10 @@ fun VaultListScreen(navController: NavController) {
                         elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
                         colors =
                             CardDefaults.cardColors(
-                                containerColor = MaterialTheme.colorScheme.surface,
+                                containerColor = MaterialTheme.colorScheme.surfaceVariant,
                             ),
                     ) {
                         Column(modifier = Modifier.padding(16.dp)) {
-                            // 📱 App name
                             Text(
                                 text = item.app,
                                 style = MaterialTheme.typography.titleMedium,
@@ -74,7 +69,6 @@ fun VaultListScreen(navController: NavController) {
 
                             Spacer(modifier = Modifier.height(6.dp))
 
-                            // 👤 Username
                             Text(
                                 text = item.username,
                                 style = MaterialTheme.typography.bodyMedium,
@@ -82,7 +76,6 @@ fun VaultListScreen(navController: NavController) {
 
                             Spacer(modifier = Modifier.height(6.dp))
 
-                            // 🔐 Password
                             Text(
                                 text = if (showPassword) item.password else "••••••••",
                                 style = MaterialTheme.typography.bodyMedium,
@@ -90,18 +83,14 @@ fun VaultListScreen(navController: NavController) {
 
                             Spacer(modifier = Modifier.height(10.dp))
 
-                            // 🎯 Actions
                             Row(
                                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                             ) {
-                                // 👁 Show / Hide
                                 OutlinedButton(
                                     onClick = { showPassword = !showPassword },
                                 ) {
                                     Text(if (showPassword) "Hide" else "Show")
                                 }
-
-                                // ✏️ Edit
                                 Button(
                                     onClick = {
                                         navController.navigate("add?itemId=${item.id}")
@@ -109,12 +98,10 @@ fun VaultListScreen(navController: NavController) {
                                 ) {
                                     Text("Edit")
                                 }
-
-                                // 🗑 Delete
                                 Button(
                                     onClick = {
                                         VaultManager.delete(context, item.id)
-                                        refreshTrigger++ // 🔄 refresh list
+                                        refreshTrigger++
                                     },
                                     colors =
                                         ButtonDefaults.buttonColors(
