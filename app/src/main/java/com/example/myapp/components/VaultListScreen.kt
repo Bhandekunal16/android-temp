@@ -101,7 +101,24 @@ fun VaultListScreen(navController: NavController) {
                                 }
                                 Button(
                                     onClick = {
-                                        navController.navigate("add?itemId=${item.id}")
+                                        if (activity == null) return@Button
+
+                                        if (!isBiometricAvailable(context)) {
+                                            ToastService.toast(context, "Biometric not available ❌")
+                                            return@Button
+                                        }
+                                        showBiometricPrompt(
+                                            activity = activity,
+                                            onSuccess = {
+                                                navController.navigate("add?itemId=${item.id}")
+                                            },
+                                            onError = {
+                                                ToastService.toast(context, "Auth error ❌")
+                                            },
+                                            onFailed = {
+                                                ToastService.toast(context, "Auth failed ❌")
+                                            },
+                                        )
                                     },
                                 ) {
                                     Text(text = stringResource(R.string.Edit))
