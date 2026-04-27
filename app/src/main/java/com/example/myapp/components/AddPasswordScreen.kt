@@ -60,24 +60,10 @@ fun AddPasswordScreen(
                     ToastService.toast(context, "Enter all Required data! ❌")
                     return@Button
                 } else if (itemId == null) {
-                    // ➕ ADD
-                    VaultManager.save(
-                        context,
-                        VaultItem(app = app, username = username, password = password),
-                    )
+                    VaultManager.save(context, VaultItem(app = app, username = username, password = password))
                 } else {
-                    // ✏️ UPDATE
-                    VaultManager.update(
-                        context,
-                        VaultItem(
-                            id = itemId,
-                            app = app,
-                            username = username,
-                            password = password,
-                        ),
-                    )
+                    VaultManager.update(context, VaultItem(id = itemId, app = app, username = username, password = password))
                 }
-
                 navController.popBackStack()
             },
         ) {
