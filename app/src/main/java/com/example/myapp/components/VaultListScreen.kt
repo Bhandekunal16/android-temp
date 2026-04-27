@@ -46,6 +46,13 @@ fun VaultListScreen(navController: NavController) {
     var searchQuery by remember { mutableStateOf("") }
     val lifecycleOwner = LocalLifecycleOwner.current
 
+    LaunchedEffect(Unit) {
+        while (true) {
+            kotlinx.coroutines.delay(5000) // check every 5 sec
+            AppLockManager.checkLock()
+        }
+    }
+
     DisposableEffect(lifecycleOwner) {
         val observer =
             LifecycleEventObserver { _, event ->
