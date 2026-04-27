@@ -20,8 +20,10 @@ import com.example.myapp.components.findActivity
 import com.example.myapp.isBiometricAvailable
 import com.example.myapp.parseString
 import com.example.myapp.showBiometricPrompt
+import com.example.myapp.vault.PasswordStrength
 import com.example.myapp.vault.VaultItem
 import com.example.myapp.vault.VaultManager
+import com.example.myapp.vault.evaluatePassword
 
 @Composable
 fun VaultListScreen(navController: NavController) {
@@ -62,6 +64,13 @@ fun VaultListScreen(navController: NavController) {
             LazyColumn {
                 items(items, key = { it.id }) { item ->
                     var showPassword by remember { mutableStateOf(false) }
+                    val strengthResult = remember(item.password) { evaluatePassword(item.password) }
+                    val (label, color) =
+                        when (strengthResult.strength) {
+                            PasswordStrength.WEAK -> "Weak ❌" to Color.Red
+                            PasswordStrength.MEDIUM -> "Medium ⚠️" to Color(0xFFFFA000)
+                            PasswordStrength.STRONG -> "Strong ✅" to Color(0xFF2E7D32)
+                        }
 
                     Card(
                         modifier = Modifier.padding(12.dp).fillMaxWidth(),
@@ -75,6 +84,27 @@ fun VaultListScreen(navController: NavController) {
                             Text(text = item.username, style = MaterialTheme.typography.bodyMedium)
                             Spacer(modifier = Modifier.height(6.dp))
                             Text(text = if (showPassword) item.password else "********", style = MaterialTheme.typography.bodyMedium)
+                            Spacer(modifier = Modifier.height(6.dp))
+                            Surface(
+                                color = color.copy(alpha = 0.15f),
+                                shape = MaterialTheme.shapes.small,
+                            ) {
+                                Text(
+                                    text = label,
+                                    color = color,
+                                    style = MaterialTheme.typography.labelSmall,
+                                    modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+                                )
+                            }
+                            Spacer(modifier = Modifier.height(6.dp))
+                            LinearProgressIndicator(
+                                progress = (strengthResult.score + 1) / 5f,
+                                color = color,
+                                modifier =
+                                    Modifier
+                                        .fillMaxWidth()
+                                        .height(4.dp),
+                            )
                             Spacer(modifier = Modifier.height(10.dp))
 
                             Row(
