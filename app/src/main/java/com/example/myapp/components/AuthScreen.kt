@@ -31,7 +31,6 @@ fun Context.findActivity(): FragmentActivity? {
 fun AuthScreen(navController: NavController) {
     val context = LocalContext.current
     val activity = remember { context.findActivity() }
-
     var isLoading by remember { mutableStateOf(false) }
 
     Column(
@@ -62,10 +61,7 @@ fun AuthScreen(navController: NavController) {
                     activity = activity,
                     onSuccess = {
                         ToastService.toast(context, "Authenticated ✅")
-
-                        navController.navigate("home") {
-                            popUpTo("auth") { inclusive = true }
-                        }
+                        navController.navigate("home") { popUpTo("auth") { inclusive = true } }
                     },
                     onError = {
                         isLoading = false
