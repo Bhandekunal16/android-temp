@@ -49,27 +49,20 @@ fun VaultListScreen(navController: NavController) {
     }
 
     Column(modifier = Modifier.fillMaxSize()) {
-        Button(
-            onClick = { navController.navigate("add") },
-            modifier = paddingSixteen,
-        ) { Text(text = stringResource(R.string.AddPassword)) }
+        Button(onClick = { navController.navigate("add") }, modifier = paddingSixteen)
+        { Text(text = stringResource(R.string.AddPassword)) }
         Text(text = title, modifier = paddingSixteen, color = MaterialTheme.colorScheme.primary)
         OutlinedTextField(
             value = searchQuery,
             onValueChange = { searchQuery = it },
-            modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
             placeholder = { Text("Search by app or username") },
-            leadingIcon = {
-                Icon(Icons.Default.Search, contentDescription = "Search")
-            },
+            leadingIcon = { Icon(Icons.Default.Search, contentDescription = "Search") },
             trailingIcon = {
                 if (searchQuery.isNotEmpty()) {
-                    IconButton(onClick = { searchQuery = "" }) {
-                        Icon(Icons.Default.Close, contentDescription = "Clear")
-                    }
+                    IconButton(
+                        onClick = { searchQuery = "" },
+                    ) { Icon(Icons.Default.Close, contentDescription = "Clear") }
                 }
             },
             singleLine = true,
@@ -96,12 +89,7 @@ fun VaultListScreen(navController: NavController) {
                 }
             if (filteredItems.isEmpty()) {
                 Text(
-                    text =
-                        if (searchQuery.isBlank()) {
-                            stringResource(R.string.NoPasswordsSaved)
-                        } else {
-                            "No results found 🔍"
-                        },
+                    text = if (searchQuery.isBlank()) stringResource(R.string.NoPasswordsSaved) else "No results found 🔍",
                     modifier = paddingSixteen,
                     color = MaterialTheme.colorScheme.surfaceVariant,
                 )
