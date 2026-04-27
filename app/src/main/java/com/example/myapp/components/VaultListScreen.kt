@@ -230,10 +230,10 @@ fun VaultListScreen(navController: NavController) {
                                                     ToastService.toast(context, "Copied to clipboard 📋")
                                                     Handler(Looper.getMainLooper()).postDelayed({
                                                         val current = clipboard.primaryClip?.getItemAt(0)?.text
-                                                        if (current == item.password) {
-                                                            clipboard.setPrimaryClip(
-                                                                ClipData.newPlainText("", ""),
-                                                            )
+                                                        if (current ==
+                                                            item.password
+                                                        ) {
+                                                            clipboard.setPrimaryClip(ClipData.newPlainText("", ""))
                                                         }
                                                     }, 30_000)
                                                 },
