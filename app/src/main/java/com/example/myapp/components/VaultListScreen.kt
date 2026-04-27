@@ -61,9 +61,10 @@ fun VaultListScreen(navController: NavController) {
                 color = MaterialTheme.colorScheme.surfaceVariant,
             )
         } else {
+            val passwordCounts = remember(items) { items.groupingBy { it.password }.eachCount() }
             LazyColumn {
                 items(items, key = { it.id }) { item ->
-                    var showPassword by remember { mutableStateOf(false) }
+                    var showPassword by remember(item.id) { mutableStateOf(false) }
                     val strengthResult = remember(item.password) { evaluatePassword(item.password) }
                     val (label, color) =
                         when (strengthResult.strength) {
@@ -71,6 +72,8 @@ fun VaultListScreen(navController: NavController) {
                             PasswordStrength.MEDIUM -> "Medium ⚠️" to Color(0xFFFFA000)
                             PasswordStrength.STRONG -> "Strong ✅" to Color(0xFF2E7D32)
                         }
+                    val reuseCount = passwordCounts[item.password] ?: 0
+                    val isReused = reuseCount > 1
 
                     Card(
                         modifier = Modifier.padding(12.dp).fillMaxWidth(),
@@ -85,10 +88,8 @@ fun VaultListScreen(navController: NavController) {
                             Spacer(modifier = Modifier.height(6.dp))
                             Text(text = if (showPassword) item.password else "********", style = MaterialTheme.typography.bodyMedium)
                             Spacer(modifier = Modifier.height(6.dp))
-                            Surface(
-                                color = color.copy(alpha = 0.15f),
-                                shape = MaterialTheme.shapes.small,
-                            ) {
+                            Surface(color = color.copy(alpha = 0.15f), shape = MaterialTheme.shapes.small)
+                            {
                                 Text(
                                     text = label,
                                     color = color,
@@ -96,28 +97,46 @@ fun VaultListScreen(navController: NavController) {
                                     modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
                                 )
                             }
+
+                            if (isReused) {
+                                Spacer(modifier = Modifier.height(6.dp))
+                                Surface(color = Color.Red.copy(alpha = 0.1f), shape = MaterialTheme.shapes.small)
+                                {
+                                    Text(
+                                        text = "Reused in $reuseCount apps ⚠️",
+                                        color = Color.Red,
+                                        style = MaterialTheme.typography.labelSmall,
+                                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+                                    )
+                                }
+                            }
+
                             Spacer(modifier = Modifier.height(6.dp))
                             LinearProgressIndicator(
                                 progress = (strengthResult.score + 1) / 5f,
                                 color = color,
-                                modifier =
-                                    Modifier
-                                        .fillMaxWidth()
-                                        .height(4.dp),
+                                modifier = Modifier.fillMaxWidth().height(4.dp),
                             )
                             Spacer(modifier = Modifier.height(10.dp))
-
                             Row(
                                 modifier = Modifier.fillMaxWidth(),
                                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                             ) {
-                                OutlinedButton(onClick = { showPassword = !showPassword }, modifier = Modifier.weight(1f))
-                                {
+                                OutlinedButton(
+                                    onClick = { showPassword = !showPassword },
+                                    modifier = Modifier.weight(1f),
+                                ) {
                                     Icon(
-                                        imageVector = if (showPassword) Icons.Default.VisibilityOff else Icons.Default.Visibility,
+                                        imageVector =
+                                            if (showPassword) {
+                                                Icons.Default.VisibilityOff
+                                            } else {
+                                                Icons.Default.Visibility
+                                            },
                                         contentDescription = "Toggle Password",
                                     )
                                 }
+
                                 Button(
                                     onClick = {
                                         if (activity == null) return@Button
@@ -135,7 +154,7 @@ fun VaultListScreen(navController: NavController) {
                                         )
                                     },
                                     modifier = Modifier.weight(1f),
-                                ) { Icon(imageVector = Icons.Default.Edit, contentDescription = "Edit") }
+                                ) { Icon(Icons.Default.Edit, contentDescription = "Edit") }
                                 Button(
                                     onClick = {
                                         if (activity == null) return@Button
@@ -158,7 +177,7 @@ fun VaultListScreen(navController: NavController) {
                                     },
                                     modifier = Modifier.weight(1f),
                                     colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error),
-                                ) { Icon(imageVector = Icons.Default.Delete, contentDescription = "Delete") }
+                                ) { Icon(Icons.Default.Delete, contentDescription = "Delete") }
                                 Button(
                                     onClick = {
                                         if (activity == null) return@Button
@@ -193,7 +212,7 @@ fun VaultListScreen(navController: NavController) {
                                         )
                                     },
                                     modifier = Modifier.weight(1f),
-                                ) { Icon(imageVector = Icons.Default.Share, contentDescription = "Share") }
+                                ) { Icon(Icons.Default.Share, contentDescription = "Share") }
                             }
                         }
                     }
