@@ -76,10 +76,8 @@ fun VaultListScreen(navController: NavController) {
                                 modifier = Modifier.fillMaxWidth(),
                                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                             ) {
-                                OutlinedButton(
-                                    onClick = { showPassword = !showPassword },
-                                    modifier = Modifier.weight(1f),
-                                ) {
+                                OutlinedButton(onClick = { showPassword = !showPassword }, modifier = Modifier.weight(1f))
+                                {
                                     Icon(
                                         imageVector = if (showPassword) Icons.Default.VisibilityOff else Icons.Default.Visibility,
                                         contentDescription = "Toggle Password",
