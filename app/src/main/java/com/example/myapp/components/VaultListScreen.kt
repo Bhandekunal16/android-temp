@@ -60,16 +60,10 @@ fun VaultListScreen(navController: NavController) {
                     var showPassword by remember { mutableStateOf(false) }
 
                     Card(
-                        modifier =
-                            Modifier
-                                .padding(12.dp)
-                                .fillMaxWidth(),
+                        modifier = Modifier.padding(12.dp).fillMaxWidth(),
                         shape = MaterialTheme.shapes.large,
                         elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
-                        colors =
-                            CardDefaults.cardColors(
-                                containerColor = MaterialTheme.colorScheme.surfaceVariant,
-                            ),
+                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
                     ) {
                         Column(modifier = Modifier.padding(16.dp)) {
                             Text(
@@ -114,17 +108,12 @@ fun VaultListScreen(navController: NavController) {
                                             ToastService.toast(context, "Biometric not available ❌")
                                             return@Button
                                         }
+
                                         showBiometricPrompt(
                                             activity = activity,
-                                            onSuccess = {
-                                                navController.navigate("add?itemId=${item.id}")
-                                            },
-                                            onError = {
-                                                ToastService.toast(context, "Auth error ❌")
-                                            },
-                                            onFailed = {
-                                                ToastService.toast(context, "Auth failed ❌")
-                                            },
+                                            onSuccess = { navController.navigate("add?itemId=${item.id}") },
+                                            onError = { ToastService.toast(context, "Auth error ❌") },
+                                            onFailed = { ToastService.toast(context, "Auth failed ❌") },
                                         )
                                     },
                                     modifier = Modifier.weight(1f),
@@ -145,19 +134,12 @@ fun VaultListScreen(navController: NavController) {
                                                 refreshTrigger++
                                                 ToastService.toast(context, "Deleted ✅")
                                             },
-                                            onError = {
-                                                ToastService.toast(context, "Auth error ❌")
-                                            },
-                                            onFailed = {
-                                                ToastService.toast(context, "Auth failed ❌")
-                                            },
+                                            onError = { ToastService.toast(context, "Auth error ❌") },
+                                            onFailed = { ToastService.toast(context, "Auth failed ❌") },
                                         )
                                     },
                                     modifier = Modifier.weight(1f),
-                                    colors =
-                                        ButtonDefaults.buttonColors(
-                                            containerColor = MaterialTheme.colorScheme.error,
-                                        ),
+                                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error),
                                 ) { Icon(imageVector = Icons.Default.Delete, contentDescription = "Delete") }
                                 Button(
                                     onClick = {
@@ -186,15 +168,10 @@ fun VaultListScreen(navController: NavController) {
                                                     }
 
                                                 val shareIntent = android.content.Intent.createChooser(sendIntent, "Share credentials")
-
                                                 context.startActivity(shareIntent)
                                             },
-                                            onError = {
-                                                ToastService.toast(context, "Auth error ❌")
-                                            },
-                                            onFailed = {
-                                                ToastService.toast(context, "Auth failed ❌")
-                                            },
+                                            onError = { ToastService.toast(context, "Auth error ❌") },
+                                            onFailed = { ToastService.toast(context, "Auth failed ❌") },
                                         )
                                     },
                                     modifier = Modifier.weight(1f),
