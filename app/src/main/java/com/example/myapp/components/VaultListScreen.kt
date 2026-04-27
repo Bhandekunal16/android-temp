@@ -55,7 +55,6 @@ fun VaultListScreen(navController: NavController) {
         } else {
             LazyColumn {
                 items(items, key = { it.id }) { item ->
-
                     var showPassword by remember { mutableStateOf(false) }
 
                     Card(
