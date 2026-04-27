@@ -12,7 +12,14 @@ object VaultManager {
 
     private fun getFile(context: Context): File = File(context.filesDir, FILE_NAME)
 
-    // ✅ GET ALL (RAW - encrypted)
+    private fun writeJsonFile(
+        input: List<VaultItem>,
+        context: Context,
+    ) {
+        val json = gson.toJson(input)
+        getFile(context).writeText(json)
+    }
+
     fun getAll(context: Context): List<VaultItem> {
         return try {
             val file = getFile(context)
@@ -27,7 +34,7 @@ object VaultManager {
             gson.fromJson<List<VaultItem>>(json, type) ?: emptyList()
         } catch (e: Exception) {
             e.printStackTrace()
-            emptyList() // 🔥 NEVER crash
+            emptyList()
         }
     }
 
@@ -35,12 +42,10 @@ object VaultManager {
         try {
             getAll(context).mapNotNull { item ->
                 try {
-                    item.copy(
-                        password = CryptoManager.decrypt(item.password),
-                    )
+                    item.copy(password = CryptoManager.decrypt(item.password))
                 } catch (e: Exception) {
                     e.printStackTrace()
-                    null // ❌ skip broken item
+                    null
                 }
             }
         } catch (e: Exception) {
@@ -48,55 +53,37 @@ object VaultManager {
             emptyList()
         }
 
-    // ✅ SAVE
     fun save(
         context: Context,
         item: VaultItem,
     ) {
         val list = getAll(context).toMutableList()
-
-        val encryptedItem =
-            item.copy(
-                password = CryptoManager.encrypt(item.password),
-            )
-
+        val encryptedItem = item.copy(password = CryptoManager.encrypt(item.password))
         list.add(encryptedItem)
-
-        val json = gson.toJson(list)
-        getFile(context).writeText(json)
+        writeJsonFile(list, context)
     }
 
-    // ✅ UPDATE
     fun update(
         context: Context,
         updatedItem: VaultItem,
     ) {
         val list = getAll(context).toMutableList()
-
         val index = list.indexOfFirst { it.id == updatedItem.id }
 
         if (index != -1) {
-            val encryptedItem =
-                updatedItem.copy(
-                    password = CryptoManager.encrypt(updatedItem.password),
-                )
+            val encryptedItem = updatedItem.copy(password = CryptoManager.encrypt(updatedItem.password))
             list[index] = encryptedItem
         }
 
-        val json = gson.toJson(list)
-        getFile(context).writeText(json)
+        writeJsonFile(list, context)
     }
 
-    // ✅ DELETE
     fun delete(
         context: Context,
         itemId: String,
     ) {
         val list = getAll(context).toMutableList()
-
         val updatedList = list.filter { it.id != itemId }
-
-        val json = gson.toJson(updatedList)
-        getFile(context).writeText(json)
+        writeJsonFile(updatedList, context)
     }
 }
