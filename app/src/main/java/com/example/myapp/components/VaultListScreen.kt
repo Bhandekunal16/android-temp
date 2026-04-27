@@ -37,6 +37,7 @@ fun VaultListScreen(navController: NavController) {
     var items by remember { mutableStateOf<List<VaultItem>>(emptyList()) }
     var refreshTrigger by remember { mutableStateOf(0) }
     var paddingSixteen = Modifier.padding(16.dp)
+    var searchQuery by remember { mutableStateOf("") }
 
     LaunchedEffect(refreshTrigger) {
         try {
@@ -53,6 +54,27 @@ fun VaultListScreen(navController: NavController) {
             modifier = paddingSixteen,
         ) { Text(text = stringResource(R.string.AddPassword)) }
         Text(text = title, modifier = paddingSixteen, color = MaterialTheme.colorScheme.primary)
+        OutlinedTextField(
+            value = searchQuery,
+            onValueChange = { searchQuery = it },
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+            placeholder = { Text("Search by app or username") },
+            leadingIcon = {
+                Icon(Icons.Default.Search, contentDescription = "Search")
+            },
+            trailingIcon = {
+                if (searchQuery.isNotEmpty()) {
+                    IconButton(onClick = { searchQuery = "" }) {
+                        Icon(Icons.Default.Close, contentDescription = "Clear")
+                    }
+                }
+            },
+            singleLine = true,
+            shape = MaterialTheme.shapes.large,
+        )
         if (items.isEmpty()) {
             Text(
                 text = stringResource(R.string.NoPasswordsSaved),
@@ -61,155 +83,179 @@ fun VaultListScreen(navController: NavController) {
             )
         } else {
             val passwordCounts = remember(items) { items.groupingBy { it.password }.eachCount() }
-            LazyColumn {
-                items(items, key = { it.id }) { item ->
-                    var showPassword by remember(item.id) { mutableStateOf(false) }
-                    val strengthResult = remember(item.password) { evaluatePassword(item.password) }
-                    val (label, color) =
-                        when (strengthResult.strength) {
-                            PasswordStrength.WEAK -> "Weak ❌" to Color.Red
-                            PasswordStrength.MEDIUM -> "Medium ⚠️" to Color(0xFFFFA000)
-                            PasswordStrength.STRONG -> "Strong ✅" to Color(0xFF2E7D32)
+            val filteredItems =
+                remember(items, searchQuery) {
+                    if (searchQuery.isBlank()) {
+                        items
+                    } else {
+                        items.filter {
+                            it.app.contains(searchQuery, ignoreCase = true) ||
+                                it.username.contains(searchQuery, ignoreCase = true)
                         }
-                    val reuseCount = passwordCounts[item.password] ?: 0
-                    val isReused = reuseCount > 1
-
-                    Card(
-                        modifier = Modifier.padding(12.dp).fillMaxWidth(),
-                        shape = MaterialTheme.shapes.large,
-                        elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
-                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
-                    ) {
-                        Column(modifier = paddingSixteen) {
-                            Text(text = item.app, style = MaterialTheme.typography.titleMedium)
-                            Spacer(modifier = Modifier.height(6.dp))
-                            Text(text = item.username, style = MaterialTheme.typography.bodyMedium)
-                            Spacer(modifier = Modifier.height(6.dp))
-                            Text(text = if (showPassword) item.password else "********", style = MaterialTheme.typography.bodyMedium)
-                            Spacer(modifier = Modifier.height(6.dp))
-                            Surface(color = color.copy(alpha = 0.15f), shape = MaterialTheme.shapes.small)
-                            {
-                                Text(
-                                    text = label,
-                                    color = color,
-                                    style = MaterialTheme.typography.labelSmall,
-                                    modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
-                                )
+                    }
+                }
+            if (filteredItems.isEmpty()) {
+                Text(
+                    text =
+                        if (searchQuery.isBlank()) {
+                            stringResource(R.string.NoPasswordsSaved)
+                        } else {
+                            "No results found 🔍"
+                        },
+                    modifier = paddingSixteen,
+                    color = MaterialTheme.colorScheme.surfaceVariant,
+                )
+            } else {
+                LazyColumn {
+                    items(filteredItems, key = { it.id }) { item ->
+                        var showPassword by remember(item.id) { mutableStateOf(false) }
+                        val strengthResult = remember(item.password) { evaluatePassword(item.password) }
+                        val (label, color) =
+                            when (strengthResult.strength) {
+                                PasswordStrength.WEAK -> "Weak ❌" to Color.Red
+                                PasswordStrength.MEDIUM -> "Medium ⚠️" to Color(0xFFFFA000)
+                                PasswordStrength.STRONG -> "Strong ✅" to Color(0xFF2E7D32)
                             }
+                        val reuseCount = passwordCounts[item.password] ?: 0
+                        val isReused = reuseCount > 1
 
-                            if (isReused) {
+                        Card(
+                            modifier = Modifier.padding(12.dp).fillMaxWidth(),
+                            shape = MaterialTheme.shapes.large,
+                            elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
+                            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
+                        ) {
+                            Column(modifier = paddingSixteen) {
+                                Text(text = item.app, style = MaterialTheme.typography.titleMedium)
                                 Spacer(modifier = Modifier.height(6.dp))
-                                Surface(color = Color.Red.copy(alpha = 0.1f), shape = MaterialTheme.shapes.small)
+                                Text(text = item.username, style = MaterialTheme.typography.bodyMedium)
+                                Spacer(modifier = Modifier.height(6.dp))
+                                Text(text = if (showPassword) item.password else "********", style = MaterialTheme.typography.bodyMedium)
+                                Spacer(modifier = Modifier.height(6.dp))
+                                Surface(color = color.copy(alpha = 0.15f), shape = MaterialTheme.shapes.small)
                                 {
                                     Text(
-                                        text = "Reused in $reuseCount apps ⚠️",
-                                        color = Color.Red,
+                                        text = label,
+                                        color = color,
                                         style = MaterialTheme.typography.labelSmall,
                                         modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
                                     )
                                 }
-                            }
 
-                            Spacer(modifier = Modifier.height(6.dp))
-                            LinearProgressIndicator(
-                                progress = (strengthResult.score + 1) / 5f,
-                                color = color,
-                                modifier = Modifier.fillMaxWidth().height(4.dp),
-                            )
-                            Spacer(modifier = Modifier.height(10.dp))
-                            Row(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                            ) {
-                                OutlinedButton(
-                                    onClick = { showPassword = !showPassword },
-                                    modifier = Modifier.weight(1f),
-                                ) {
-                                    Icon(
-                                        imageVector =
-                                            if (showPassword) {
-                                                Icons.Default.VisibilityOff
-                                            } else {
-                                                Icons.Default.Visibility
-                                            },
-                                        contentDescription = "Toggle Password",
-                                    )
+                                if (isReused) {
+                                    Spacer(modifier = Modifier.height(6.dp))
+                                    Surface(color = Color.Red.copy(alpha = 0.1f), shape = MaterialTheme.shapes.small)
+                                    {
+                                        Text(
+                                            text = "Reused in $reuseCount apps ⚠️",
+                                            color = Color.Red,
+                                            style = MaterialTheme.typography.labelSmall,
+                                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+                                        )
+                                    }
                                 }
 
-                                Button(
-                                    onClick = {
-                                        if (activity == null) return@Button
-
-                                        if (!isBiometricAvailable(context)) {
-                                            ToastService.toast(context, "Biometric not available ❌")
-                                            return@Button
-                                        }
-
-                                        showBiometricPrompt(
-                                            activity = activity,
-                                            onSuccess = { navController.navigate("add?itemId=${item.id}") },
-                                            onError = { ToastService.toast(context, "Auth error ❌") },
-                                            onFailed = { ToastService.toast(context, "Auth failed ❌") },
+                                Spacer(modifier = Modifier.height(6.dp))
+                                LinearProgressIndicator(
+                                    progress = (strengthResult.score + 1) / 5f,
+                                    color = color,
+                                    modifier = Modifier.fillMaxWidth().height(4.dp),
+                                )
+                                Spacer(modifier = Modifier.height(10.dp))
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                                ) {
+                                    OutlinedButton(
+                                        onClick = { showPassword = !showPassword },
+                                        modifier = Modifier.weight(1f),
+                                    ) {
+                                        Icon(
+                                            imageVector =
+                                                if (showPassword) {
+                                                    Icons.Default.VisibilityOff
+                                                } else {
+                                                    Icons.Default.Visibility
+                                                },
+                                            contentDescription = "Toggle Password",
                                         )
-                                    },
-                                    modifier = Modifier.weight(1f),
-                                ) { Icon(Icons.Default.Edit, contentDescription = "Edit") }
-                                Button(
-                                    onClick = {
-                                        if (activity == null) return@Button
+                                    }
 
-                                        if (!isBiometricAvailable(context)) {
-                                            ToastService.toast(context, "Biometric not available ❌")
-                                            return@Button
-                                        }
+                                    Button(
+                                        onClick = {
+                                            if (activity == null) return@Button
 
-                                        showBiometricPrompt(
-                                            activity = activity,
-                                            onSuccess = {
-                                                VaultManager.delete(context, item.id)
-                                                refreshTrigger++
-                                                ToastService.toast(context, "Deleted ✅")
-                                            },
-                                            onError = { ToastService.toast(context, "Auth error ❌") },
-                                            onFailed = { ToastService.toast(context, "Auth failed ❌") },
-                                        )
-                                    },
-                                    modifier = Modifier.weight(1f),
-                                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error),
-                                ) { Icon(Icons.Default.Delete, contentDescription = "Delete") }
-                                Button(
-                                    onClick = {
-                                        if (activity == null) return@Button
+                                            if (!isBiometricAvailable(context)) {
+                                                ToastService.toast(context, "Biometric not available ❌")
+                                                return@Button
+                                            }
 
-                                        if (!isBiometricAvailable(context)) {
-                                            ToastService.toast(context, "Biometric not available ❌")
-                                            return@Button
-                                        }
+                                            showBiometricPrompt(
+                                                activity = activity,
+                                                onSuccess = { navController.navigate("add?itemId=${item.id}") },
+                                                onError = { ToastService.toast(context, "Auth error ❌") },
+                                                onFailed = { ToastService.toast(context, "Auth failed ❌") },
+                                            )
+                                        },
+                                        modifier = Modifier.weight(1f),
+                                    ) { Icon(Icons.Default.Edit, contentDescription = "Edit") }
+                                    Button(
+                                        onClick = {
+                                            if (activity == null) return@Button
 
-                                        showBiometricPrompt(
-                                            activity = activity,
-                                            onSuccess = {
-                                                val clipboard =
-                                                    context.getSystemService(
-                                                        android.content.Context.CLIPBOARD_SERVICE,
-                                                    ) as ClipboardManager
-                                                clipboard.setPrimaryClip(ClipData.newPlainText("password", item.password))
-                                                ToastService.toast(context, "Copied to clipboard 📋")
-                                                Handler(Looper.getMainLooper()).postDelayed({
-                                                    val current = clipboard.primaryClip?.getItemAt(0)?.text
-                                                    if (current == item.password) {
-                                                        clipboard.setPrimaryClip(
-                                                            ClipData.newPlainText("", ""),
-                                                        )
-                                                    }
-                                                }, 30_000)
-                                            },
-                                            onError = { ToastService.toast(context, "Auth error ❌") },
-                                            onFailed = { ToastService.toast(context, "Auth failed ❌") },
-                                        )
-                                    },
-                                    modifier = Modifier.weight(1f),
-                                ) { Icon(Icons.Default.ContentCopy, contentDescription = "Copy") }
+                                            if (!isBiometricAvailable(context)) {
+                                                ToastService.toast(context, "Biometric not available ❌")
+                                                return@Button
+                                            }
+
+                                            showBiometricPrompt(
+                                                activity = activity,
+                                                onSuccess = {
+                                                    VaultManager.delete(context, item.id)
+                                                    refreshTrigger++
+                                                    ToastService.toast(context, "Deleted ✅")
+                                                },
+                                                onError = { ToastService.toast(context, "Auth error ❌") },
+                                                onFailed = { ToastService.toast(context, "Auth failed ❌") },
+                                            )
+                                        },
+                                        modifier = Modifier.weight(1f),
+                                        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error),
+                                    ) { Icon(Icons.Default.Delete, contentDescription = "Delete") }
+                                    Button(
+                                        onClick = {
+                                            if (activity == null) return@Button
+
+                                            if (!isBiometricAvailable(context)) {
+                                                ToastService.toast(context, "Biometric not available ❌")
+                                                return@Button
+                                            }
+
+                                            showBiometricPrompt(
+                                                activity = activity,
+                                                onSuccess = {
+                                                    val clipboard =
+                                                        context.getSystemService(
+                                                            android.content.Context.CLIPBOARD_SERVICE,
+                                                        ) as ClipboardManager
+                                                    clipboard.setPrimaryClip(ClipData.newPlainText("password", item.password))
+                                                    ToastService.toast(context, "Copied to clipboard 📋")
+                                                    Handler(Looper.getMainLooper()).postDelayed({
+                                                        val current = clipboard.primaryClip?.getItemAt(0)?.text
+                                                        if (current == item.password) {
+                                                            clipboard.setPrimaryClip(
+                                                                ClipData.newPlainText("", ""),
+                                                            )
+                                                        }
+                                                    }, 30_000)
+                                                },
+                                                onError = { ToastService.toast(context, "Auth error ❌") },
+                                                onFailed = { ToastService.toast(context, "Auth failed ❌") },
+                                            )
+                                        },
+                                        modifier = Modifier.weight(1f),
+                                    ) { Icon(Icons.Default.ContentCopy, contentDescription = "Copy") }
+                                }
                             }
                         }
                     }
