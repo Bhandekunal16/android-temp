@@ -32,6 +32,7 @@ fun VaultListScreen(navController: NavController) {
     val title by remember { mutableStateOf("Create, save and manage your passwords so that you can easily sign in to sites and apps.") }
     var items by remember { mutableStateOf<List<VaultItem>>(emptyList()) }
     var refreshTrigger by remember { mutableStateOf(0) }
+    var paddingSixteen = Modifier.padding(16.dp)
 
     LaunchedEffect(refreshTrigger) {
         try {
@@ -45,19 +46,13 @@ fun VaultListScreen(navController: NavController) {
     Column(modifier = Modifier.fillMaxSize()) {
         Button(
             onClick = { navController.navigate("add") },
-            modifier = Modifier.padding(16.dp),
-        ) {
-            Text(text = stringResource(R.string.AddPassword))
-        }
-        Text(
-            text = title,
-            modifier = Modifier.padding(16.dp),
-            color = MaterialTheme.colorScheme.primary,
-        )
+            modifier = paddingSixteen,
+        ) { Text(text = stringResource(R.string.AddPassword)) }
+        Text(text = title, modifier = paddingSixteen, color = MaterialTheme.colorScheme.primary)
         if (items.isEmpty()) {
             Text(
                 text = stringResource(R.string.NoPasswordsSaved),
-                modifier = Modifier.padding(16.dp),
+                modifier = paddingSixteen,
                 color = MaterialTheme.colorScheme.surfaceVariant,
             )
         } else {
@@ -81,7 +76,7 @@ fun VaultListScreen(navController: NavController) {
                         elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
                         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
                     ) {
-                        Column(modifier = Modifier.padding(16.dp)) {
+                        Column(modifier = paddingSixteen) {
                             Text(text = item.app, style = MaterialTheme.typography.titleMedium)
                             Spacer(modifier = Modifier.height(6.dp))
                             Text(text = item.username, style = MaterialTheme.typography.bodyMedium)
