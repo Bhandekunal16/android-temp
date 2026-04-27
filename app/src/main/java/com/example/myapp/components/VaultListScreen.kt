@@ -12,12 +12,18 @@ import androidx.compose.material3.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.*
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import androidx.navigation.NavController
+import com.example.myapp.AppLockManager
 import com.example.myapp.R
 import com.example.myapp.ToastService
 import com.example.myapp.components.findActivity
@@ -36,9 +42,56 @@ fun VaultListScreen(navController: NavController) {
     val title by remember { mutableStateOf("Create, save and manage your passwords so that you can easily sign in to sites and apps.") }
     var items by remember { mutableStateOf<List<VaultItem>>(emptyList()) }
     var refreshTrigger by remember { mutableStateOf(0) }
-    var paddingSixteen = Modifier.padding(16.dp)
+    val paddingSixteen = Modifier.padding(16.dp)
     var searchQuery by remember { mutableStateOf("") }
+    val lifecycleOwner = LocalLifecycleOwner.current
 
+    DisposableEffect(lifecycleOwner) {
+        val observer =
+            LifecycleEventObserver { _, event ->
+                when (event) {
+                    Lifecycle.Event.ON_PAUSE -> {
+                        AppLockManager.updateActivity()
+                    }
+
+                    Lifecycle.Event.ON_RESUME -> {
+                        AppLockManager.checkLock()
+                    }
+
+                    else -> {}
+                }
+            }
+
+        lifecycleOwner.lifecycle.addObserver(observer)
+
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
+        }
+    }
+
+    if (AppLockManager.isLocked) {
+        LaunchedEffect(AppLockManager.isLocked) {
+            if (AppLockManager.isLocked && activity != null) {
+                showBiometricPrompt(
+                    activity = activity,
+                    onSuccess = {
+                        AppLockManager.unlock()
+                    },
+                    onError = {},
+                    onFailed = {},
+                )
+            }
+        }
+
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center,
+        ) {
+            Text("🔒 Unlocking...")
+        }
+
+        return
+    }
     LaunchedEffect(refreshTrigger) {
         try {
             items = VaultManager.getAllDecrypted(context)
