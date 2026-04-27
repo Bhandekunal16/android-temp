@@ -19,7 +19,7 @@ elif [ "$1" = "startup" ]; then
     gradle wrapper
 
 elif [ "$1" = "run" ]; then 
-    emulator -avd "$command"
+    emulator -avd "$command" -gpu swiftshader_indirect
 
 else
     echo "unknown command"
