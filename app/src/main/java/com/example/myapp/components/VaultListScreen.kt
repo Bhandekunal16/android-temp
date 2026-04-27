@@ -48,7 +48,7 @@ fun VaultListScreen(navController: NavController) {
 
     LaunchedEffect(Unit) {
         while (true) {
-            kotlinx.coroutines.delay(5000) // check every 5 sec
+            kotlinx.coroutines.delay(5000)
             AppLockManager.checkLock()
         }
     }
