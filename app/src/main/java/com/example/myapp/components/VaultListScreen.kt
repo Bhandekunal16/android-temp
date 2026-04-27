@@ -66,25 +66,11 @@ fun VaultListScreen(navController: NavController) {
                         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
                     ) {
                         Column(modifier = Modifier.padding(16.dp)) {
-                            Text(
-                                text = item.app,
-                                style = MaterialTheme.typography.titleMedium,
-                            )
-
+                            Text(text = item.app, style = MaterialTheme.typography.titleMedium)
                             Spacer(modifier = Modifier.height(6.dp))
-
-                            Text(
-                                text = item.username,
-                                style = MaterialTheme.typography.bodyMedium,
-                            )
-
+                            Text(text = item.username, style = MaterialTheme.typography.bodyMedium)
                             Spacer(modifier = Modifier.height(6.dp))
-
-                            Text(
-                                text = if (showPassword) item.password else "••••••••",
-                                style = MaterialTheme.typography.bodyMedium,
-                            )
-
+                            Text(text = if (showPassword) item.password else "********", style = MaterialTheme.typography.bodyMedium)
                             Spacer(modifier = Modifier.height(10.dp))
 
                             Row(
