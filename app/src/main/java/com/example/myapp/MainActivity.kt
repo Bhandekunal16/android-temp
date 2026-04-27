@@ -148,7 +148,6 @@ fun MyAppTheme(
 
     val colors = if (darkTheme) ObservatoryDark else ObservatoryLight
 
-    // ✅ FIXED STATUS BAR
     val view = LocalView.current
     SideEffect {
         val window = (view.context as Activity).window
