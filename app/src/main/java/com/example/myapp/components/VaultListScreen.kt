@@ -27,7 +27,6 @@ import com.example.myapp.vault.VaultManager
 fun VaultListScreen(navController: NavController) {
     val context = LocalContext.current
     val activity = context.findActivity()
-
     var items by remember { mutableStateOf<List<VaultItem>>(emptyList()) }
     var refreshTrigger by remember { mutableStateOf(0) }
 
