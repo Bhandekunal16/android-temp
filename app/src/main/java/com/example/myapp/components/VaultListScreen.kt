@@ -1,5 +1,9 @@
 package com.example.myapp.components
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.os.Handler
+import android.os.Looper
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
 import androidx.compose.material.icons.Icons
@@ -185,29 +189,27 @@ fun VaultListScreen(navController: NavController) {
                                         showBiometricPrompt(
                                             activity = activity,
                                             onSuccess = {
-                                                val shareText =
-                                                    """
-                                                    App: ${item.app}
-                                                    Username: ${item.username}
-                                                    Password: ${item.password}
-                                                    """.trimIndent()
-
-                                                val sendIntent =
-                                                    android.content.Intent().apply {
-                                                        action = android.content.Intent.ACTION_SEND
-                                                        putExtra(android.content.Intent.EXTRA_TEXT, shareText)
-                                                        type = "text/plain"
+                                                val clipboard =
+                                                    context.getSystemService(
+                                                        android.content.Context.CLIPBOARD_SERVICE,
+                                                    ) as ClipboardManager
+                                                clipboard.setPrimaryClip(ClipData.newPlainText("password", item.password))
+                                                ToastService.toast(context, "Copied to clipboard 📋")
+                                                Handler(Looper.getMainLooper()).postDelayed({
+                                                    val current = clipboard.primaryClip?.getItemAt(0)?.text
+                                                    if (current == item.password) {
+                                                        clipboard.setPrimaryClip(
+                                                            ClipData.newPlainText("", ""),
+                                                        )
                                                     }
-
-                                                val shareIntent = android.content.Intent.createChooser(sendIntent, "Share credentials")
-                                                context.startActivity(shareIntent)
+                                                }, 30_000)
                                             },
                                             onError = { ToastService.toast(context, "Auth error ❌") },
                                             onFailed = { ToastService.toast(context, "Auth failed ❌") },
                                         )
                                     },
                                     modifier = Modifier.weight(1f),
-                                ) { Icon(Icons.Default.Share, contentDescription = "Share") }
+                                ) { Icon(Icons.Default.ContentCopy, contentDescription = "Copy") }
                             }
                         }
                     }
