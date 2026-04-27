@@ -2,6 +2,8 @@ package com.example.myapp.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -92,16 +94,20 @@ fun VaultListScreen(navController: NavController) {
                             Spacer(modifier = Modifier.height(10.dp))
 
                             Row(
+                                modifier = Modifier.fillMaxWidth(),
                                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                             ) {
                                 OutlinedButton(
                                     onClick = { showPassword = !showPassword },
+                                    modifier = Modifier.weight(1f),
                                 ) {
-                                    Text(text = if (showPassword) stringResource(R.string.Hide) else stringResource(R.string.Show))
+                                    Icon(
+                                        imageVector = if (showPassword) Icons.Default.VisibilityOff else Icons.Default.Visibility,
+                                        contentDescription = "Toggle Password",
+                                    )
                                 }
                                 Button(
                                     onClick = {
-                                        // navController.navigate("add?itemId=${item.id}")
                                         if (activity == null) return@Button
 
                                         if (!isBiometricAvailable(context)) {
@@ -121,9 +127,8 @@ fun VaultListScreen(navController: NavController) {
                                             },
                                         )
                                     },
-                                ) {
-                                    Text(text = stringResource(R.string.Edit))
-                                }
+                                    modifier = Modifier.weight(1f),
+                                ) { Icon(imageVector = Icons.Default.Edit, contentDescription = "Edit") }
                                 Button(
                                     onClick = {
                                         if (activity == null) return@Button
@@ -148,13 +153,52 @@ fun VaultListScreen(navController: NavController) {
                                             },
                                         )
                                     },
+                                    modifier = Modifier.weight(1f),
                                     colors =
                                         ButtonDefaults.buttonColors(
                                             containerColor = MaterialTheme.colorScheme.error,
                                         ),
-                                ) {
-                                    Text(text = stringResource(R.string.Delete))
-                                }
+                                ) { Icon(imageVector = Icons.Default.Delete, contentDescription = "Delete") }
+                                Button(
+                                    onClick = {
+                                        if (activity == null) return@Button
+
+                                        if (!isBiometricAvailable(context)) {
+                                            ToastService.toast(context, "Biometric not available ❌")
+                                            return@Button
+                                        }
+
+                                        showBiometricPrompt(
+                                            activity = activity,
+                                            onSuccess = {
+                                                val shareText =
+                                                    """
+                                                    App: ${item.app}
+                                                    Username: ${item.username}
+                                                    Password: ${item.password}
+                                                    """.trimIndent()
+
+                                                val sendIntent =
+                                                    android.content.Intent().apply {
+                                                        action = android.content.Intent.ACTION_SEND
+                                                        putExtra(android.content.Intent.EXTRA_TEXT, shareText)
+                                                        type = "text/plain"
+                                                    }
+
+                                                val shareIntent = android.content.Intent.createChooser(sendIntent, "Share credentials")
+
+                                                context.startActivity(shareIntent)
+                                            },
+                                            onError = {
+                                                ToastService.toast(context, "Auth error ❌")
+                                            },
+                                            onFailed = {
+                                                ToastService.toast(context, "Auth failed ❌")
+                                            },
+                                        )
+                                    },
+                                    modifier = Modifier.weight(1f),
+                                ) { Icon(imageVector = Icons.Default.Share, contentDescription = "Share") }
                             }
                         }
                     }
