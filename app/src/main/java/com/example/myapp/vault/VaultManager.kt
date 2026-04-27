@@ -9,6 +9,7 @@ import java.io.File
 object VaultManager {
     private const val FILE_NAME = "vault.json"
     private val gson = Gson()
+
     private fun getFile(context: Context): File = File(context.filesDir, FILE_NAME)
 
     private fun writeJsonFile(
