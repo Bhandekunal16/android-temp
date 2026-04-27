@@ -27,6 +27,7 @@ import com.example.myapp.vault.VaultManager
 fun VaultListScreen(navController: NavController) {
     val context = LocalContext.current
     val activity = context.findActivity()
+    val title by remember { mutableStateOf("Create, save and manage your passwords so that you can easily sign in to sites and apps.") }
     var items by remember { mutableStateOf<List<VaultItem>>(emptyList()) }
     var refreshTrigger by remember { mutableStateOf(0) }
 
@@ -46,6 +47,11 @@ fun VaultListScreen(navController: NavController) {
         ) {
             Text(text = stringResource(R.string.AddPassword))
         }
+        Text(
+            text = title,
+            modifier = Modifier.padding(16.dp),
+            color = MaterialTheme.colorScheme.primary,
+        )
         if (items.isEmpty()) {
             Text(
                 text = stringResource(R.string.NoPasswordsSaved),
