@@ -238,11 +238,9 @@ fun VaultListScreen(navController: NavController) {
                                                 onSuccess = { navController.navigate("add?itemId=${item.id}") },
                                                 onError = {
                                                     ToastService.toast(context, context.getString(R.string.auth_error))
-                                                    navController.popBackStack()
                                                 },
                                                 onFailed = {
                                                     ToastService.toast(context, context.getString(R.string.auth_failed))
-                                                    navController.popBackStack()
                                                 },
                                             )
                                         },
