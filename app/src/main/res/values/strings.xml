@@ -10,6 +10,10 @@
     <string name="Show">Show</string>
     <string name="Edit">Edit</string>
     <string name="Save">Save</string>
+    <string name="Copy">Copy</string>
+    <string name="Search">Search</string>
+    <string name="Clear">Clear</string>
+    <string name="password">password</string>
     <string name="Update">Update</string>
     <string name="Delete">Delete</string>
     <string name="AddPassword">Add Password</string>
@@ -28,6 +32,7 @@
     <string name="error">Error ❌</string>
     <string name="failed">Failed ❌</string>
     <string name="unlock">Unlock</string>
+    <string name="Unlocking">🔒 Unlocking...</string>
     <string name="password_vault">Password Vault</string>
     <string name="password_vault_desc">View all saved passwords</string>
     <string name="add_password">Add Password</string>
@@ -36,5 +41,15 @@
     <string name="valid_username">please enter valid user name</string>
     <string name="e">error</string>
     <string name="hello">Hello 👋</string>
+    <string name="add_password_tooltip">Create, save and manage your passwords so that you can easily sign in to sites and apps.</string>
+    <string name="search_by_app">Search by app or username</string>  
+    <string name="not_found">No results found 🔍</string>  
+    <string name="toggle_password">Toggle Password</string>  
+    <string name="auth_error">Auth error ❌</string>  
+    <string name="auth_failed">Auth failed ❌</string> 
+    <string name="Deleted">Deleted ✅</string> 
+    <string name="copied_to_clipboard">Copied to clipboard 📋</string>
+    
+
 
 </resources>

@@ -29,7 +29,9 @@ import com.example.myapp.ToastService
 import com.example.myapp.components.findActivity
 import com.example.myapp.isBiometricAvailable
 import com.example.myapp.parseString
+import com.example.myapp.routes.Routes
 import com.example.myapp.showBiometricPrompt
+import com.example.myapp.utils.str
 import com.example.myapp.vault.PasswordStrength
 import com.example.myapp.vault.VaultItem
 import com.example.myapp.vault.VaultManager
@@ -39,7 +41,7 @@ import com.example.myapp.vault.evaluatePassword
 fun VaultListScreen(navController: NavController) {
     val context = LocalContext.current
     val activity = context.findActivity()
-    val title by remember { mutableStateOf("Create, save and manage your passwords so that you can easily sign in to sites and apps.") }
+    val title = R.string.add_password_tooltip.str()
     var items by remember { mutableStateOf<List<VaultItem>>(emptyList()) }
     var refreshTrigger by remember { mutableStateOf(0) }
     val paddingSixteen = Modifier.padding(16.dp)
@@ -68,12 +70,8 @@ fun VaultListScreen(navController: NavController) {
                     else -> {}
                 }
             }
-
         lifecycleOwner.lifecycle.addObserver(observer)
-
-        onDispose {
-            lifecycleOwner.lifecycle.removeObserver(observer)
-        }
+        onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
     }
 
     if (AppLockManager.isLocked) {
@@ -90,12 +88,7 @@ fun VaultListScreen(navController: NavController) {
             }
         }
 
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center,
-        ) {
-            Text("🔒 Unlocking...")
-        }
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { Text(R.string.Unlocking.str()) }
 
         return
     }
@@ -109,20 +102,18 @@ fun VaultListScreen(navController: NavController) {
     }
 
     Column(modifier = Modifier.fillMaxSize()) {
-        Button(onClick = { navController.navigate("add") }, modifier = paddingSixteen)
+        Button(onClick = { navController.navigate(Routes.ADD) }, modifier = paddingSixteen)
         { Text(text = stringResource(R.string.AddPassword)) }
         Text(text = title, modifier = paddingSixteen, color = MaterialTheme.colorScheme.primary)
         OutlinedTextField(
             value = searchQuery,
             onValueChange = { searchQuery = it },
             modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
-            placeholder = { Text("Search by app or username") },
-            leadingIcon = { Icon(Icons.Default.Search, contentDescription = "Search") },
+            placeholder = { Text(context.getString(R.string.search_by_app)) },
+            leadingIcon = { Icon(Icons.Default.Search, contentDescription = R.string.Search.str()) },
             trailingIcon = {
                 if (searchQuery.isNotEmpty()) {
-                    IconButton(
-                        onClick = { searchQuery = "" },
-                    ) { Icon(Icons.Default.Close, contentDescription = "Clear") }
+                    IconButton(onClick = { searchQuery = "" }) { Icon(Icons.Default.Close, contentDescription = R.string.Clear.str()) }
                 }
             },
             singleLine = true,
@@ -149,7 +140,7 @@ fun VaultListScreen(navController: NavController) {
                 }
             if (filteredItems.isEmpty()) {
                 Text(
-                    text = if (searchQuery.isBlank()) stringResource(R.string.NoPasswordsSaved) else "No results found 🔍",
+                    text = if (searchQuery.isBlank()) stringResource(R.string.NoPasswordsSaved) else R.string.not_found.str(),
                     modifier = paddingSixteen,
                     color = MaterialTheme.colorScheme.surfaceVariant,
                 )
@@ -225,7 +216,7 @@ fun VaultListScreen(navController: NavController) {
                                                 } else {
                                                     Icons.Default.Visibility
                                                 },
-                                            contentDescription = "Toggle Password",
+                                            contentDescription = R.string.toggle_password.str(),
                                         )
                                     }
 
@@ -234,25 +225,25 @@ fun VaultListScreen(navController: NavController) {
                                             if (activity == null) return@Button
 
                                             if (!isBiometricAvailable(context)) {
-                                                ToastService.toast(context, "Biometric not available ❌")
+                                                ToastService.toast(context, context.getString(R.string.biometric_not_available))
                                                 return@Button
                                             }
 
                                             showBiometricPrompt(
                                                 activity = activity,
                                                 onSuccess = { navController.navigate("add?itemId=${item.id}") },
-                                                onError = { ToastService.toast(context, "Auth error ❌") },
-                                                onFailed = { ToastService.toast(context, "Auth failed ❌") },
+                                                onError = { ToastService.toast(context, context.getString(R.string.auth_error)) },
+                                                onFailed = { ToastService.toast(context, context.getString(R.string.auth_failed)) },
                                             )
                                         },
                                         modifier = Modifier.weight(1f),
-                                    ) { Icon(Icons.Default.Edit, contentDescription = "Edit") }
+                                    ) { Icon(Icons.Default.Edit, contentDescription = R.string.Edit.str()) }
                                     Button(
                                         onClick = {
                                             if (activity == null) return@Button
 
                                             if (!isBiometricAvailable(context)) {
-                                                ToastService.toast(context, "Biometric not available ❌")
+                                                ToastService.toast(context, context.getString(R.string.biometric_not_available))
                                                 return@Button
                                             }
 
@@ -261,21 +252,21 @@ fun VaultListScreen(navController: NavController) {
                                                 onSuccess = {
                                                     VaultManager.delete(context, item.id)
                                                     refreshTrigger++
-                                                    ToastService.toast(context, "Deleted ✅")
+                                                    ToastService.toast(context, context.getString(R.string.Deleted))
                                                 },
-                                                onError = { ToastService.toast(context, "Auth error ❌") },
-                                                onFailed = { ToastService.toast(context, "Auth failed ❌") },
+                                                onError = { ToastService.toast(context, context.getString(R.string.auth_error)) },
+                                                onFailed = { ToastService.toast(context, context.getString(R.string.auth_failed)) },
                                             )
                                         },
                                         modifier = Modifier.weight(1f),
                                         colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error),
-                                    ) { Icon(Icons.Default.Delete, contentDescription = "Delete") }
+                                    ) { Icon(Icons.Default.Delete, contentDescription = R.string.Delete.str()) }
                                     Button(
                                         onClick = {
                                             if (activity == null) return@Button
 
                                             if (!isBiometricAvailable(context)) {
-                                                ToastService.toast(context, "Biometric not available ❌")
+                                                ToastService.toast(context, context.getString(R.string.biometric_not_available))
                                                 return@Button
                                             }
 
@@ -286,8 +277,10 @@ fun VaultListScreen(navController: NavController) {
                                                         context.getSystemService(
                                                             android.content.Context.CLIPBOARD_SERVICE,
                                                         ) as ClipboardManager
-                                                    clipboard.setPrimaryClip(ClipData.newPlainText("password", item.password))
-                                                    ToastService.toast(context, "Copied to clipboard 📋")
+                                                    clipboard.setPrimaryClip(
+                                                        ClipData.newPlainText(context.getString(R.string.password), item.password),
+                                                    )
+                                                    ToastService.toast(context, context.getString(R.string.copied_to_clipboard))
                                                     Handler(Looper.getMainLooper()).postDelayed({
                                                         val current = clipboard.primaryClip?.getItemAt(0)?.text
                                                         if (current ==
@@ -297,12 +290,12 @@ fun VaultListScreen(navController: NavController) {
                                                         }
                                                     }, 30_000)
                                                 },
-                                                onError = { ToastService.toast(context, "Auth error ❌") },
-                                                onFailed = { ToastService.toast(context, "Auth failed ❌") },
+                                                onError = { ToastService.toast(context, context.getString(R.string.auth_error)) },
+                                                onFailed = { ToastService.toast(context, context.getString(R.string.auth_failed)) },
                                             )
                                         },
                                         modifier = Modifier.weight(1f),
-                                    ) { Icon(Icons.Default.ContentCopy, contentDescription = "Copy") }
+                                    ) { Icon(Icons.Default.ContentCopy, contentDescription = R.string.Copy.str()) }
                                 }
                             }
                         }
