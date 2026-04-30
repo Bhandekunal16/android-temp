@@ -7,7 +7,15 @@
     <string name="Hide">Hide</string>
     <string name="Show">Show</string>
     <string name="Edit">Edit</string>
+    <string name="Save">Save</string>
+    <string name="Update">Update</string>
     <string name="Delete">Delete</string>
     <string name="AddPassword">Add Password</string>
     <string name="NoPasswordsSaved">No passwords saved</string>
+    <string name="AddCredential">Add Credential</string>
+    <string name="EditCredential">Edit Credential</string>
+    <string name="ToolTip">Enter all Required data! ❌</string>
+    <string name="app_label">App</string>
+    <string name="app_username">Username</string>
+    <string name="app_password">Password</string>
 </resources>
