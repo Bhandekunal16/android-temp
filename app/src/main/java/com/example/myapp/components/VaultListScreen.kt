@@ -106,7 +106,7 @@ fun VaultListScreen(navController: NavController) {
     }
 
     Column(modifier = Modifier.fillMaxSize()) {
-        Button(onClick = { navController.navigate(Routes.ADD) }, modifier = paddingSixteen)
+        Button(onClick = { navController.navigate(Routes.ADD) }, modifier = paddingSixteen.align(Alignment.End))
         { Text(text = stringResource(R.string.AddPassword)) }
         Text(text = title, modifier = paddingSixteen, color = MaterialTheme.colorScheme.primary)
         OutlinedTextField(
