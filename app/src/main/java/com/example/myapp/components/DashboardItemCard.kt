@@ -22,22 +22,13 @@ fun DashboardItemCard(
 ) {
     Card(
         onClick = onClick,
-        modifier =
-            Modifier
-                .fillMaxWidth()
-                .height(110.dp),
+        modifier = Modifier.fillMaxWidth().height(110.dp),
         shape = MaterialTheme.shapes.large,
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-        colors =
-            CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surfaceVariant,
-            ),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
     ) {
         Column(
-            modifier =
-                Modifier
-                    .fillMaxSize()
-                    .padding(16.dp),
+            modifier = Modifier.fillMaxSize().padding(16.dp),
             verticalArrangement = Arrangement.Center,
         ) {
             Text(
@@ -45,9 +36,7 @@ fun DashboardItemCard(
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onSurface,
             )
-
             Spacer(modifier = Modifier.height(6.dp))
-
             Text(
                 text = description,
                 style = MaterialTheme.typography.bodyMedium,
