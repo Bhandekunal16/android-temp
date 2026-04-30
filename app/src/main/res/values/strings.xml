@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="Dashboard">Dashboard</string>
+    <string name="home">home</string>
+    <string name="auth">auth</string>
     <string name="dashboardGreeting">Welcome, %1$s 🎉</string>
     <string name="enterUsername">Please Enter user name</string>
     <string name="DashboardNav">Submit</string>
@@ -18,4 +20,12 @@
     <string name="app_label">App</string>
     <string name="app_username">Username</string>
     <string name="app_password">Password</string>
+    <string name="password_manager">Password Manager</string>
+    <string name="authentication_required">Authentication Required</string>  
+    <string name="activity_error">Activity error ❌</string>  
+    <string name="biometric_not_available">Biometric not available ❌</string>  
+    <string name="authenticated">Authenticated ✅</string>
+    <string name="error">Error ❌</string>
+    <string name="failed">Failed ❌</string>
+    <string name="unlock">Unlock</string>
 </resources>

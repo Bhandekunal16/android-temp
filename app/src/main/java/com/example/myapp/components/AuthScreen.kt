@@ -18,11 +18,9 @@ import androidx.navigation.NavController
 import com.example.myapp.R
 import com.example.myapp.ToastService
 import com.example.myapp.isBiometricAvailable
+import com.example.myapp.routes.Routes
 import com.example.myapp.showBiometricPrompt
 import com.example.myapp.utils.str
-
-// @Composable
-// fun Int.str() = stringResource(this)
 
 fun Context.findActivity(): FragmentActivity? {
     var current = this
@@ -38,26 +36,26 @@ fun AuthScreen(navController: NavController) {
     val context = LocalContext.current
     val activity = remember { context.findActivity() }
     var isLoading by remember { mutableStateOf(false) }
+    val primary = MaterialTheme.colorScheme.primary
 
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Text("Password Manager", style = MaterialTheme.typography.headlineMedium, color = MaterialTheme.colorScheme.primary)
-        Text("Authentication Required", color = MaterialTheme.colorScheme.primary)
-
+        Text(R.string.password_manager.str(), style = MaterialTheme.typography.headlineMedium, color = primary)
+        Text(R.string.authentication_required.str(), color = primary)
         Spacer(modifier = Modifier.height(20.dp))
 
         Button(
             onClick = {
                 if (activity == null) {
-                    ToastService.toast(context, "Activity error ❌")
+                    ToastService.toast(context, context.getString(R.string.activity_error))
                     return@Button
                 }
 
                 if (!isBiometricAvailable(context)) {
-                    ToastService.toast(context, "Biometric not available ❌")
+                    ToastService.toast(context, context.getString(R.string.biometric_not_available))
                     return@Button
                 }
 
@@ -66,21 +64,21 @@ fun AuthScreen(navController: NavController) {
                 showBiometricPrompt(
                     activity = activity,
                     onSuccess = {
-                        ToastService.toast(context, "Authenticated ✅")
-                        navController.navigate("home") { popUpTo("auth") { inclusive = true } }
+                        ToastService.toast(context, context.getString(R.string.authenticated))
+                        navController.navigate(Routes.HOME) { popUpTo(Routes.AUTH) { inclusive = true } }
                     },
                     onError = {
                         isLoading = false
-                        ToastService.toast(context, "Error ❌")
+                        ToastService.toast(context, context.getString(R.string.error))
                     },
                     onFailed = {
                         isLoading = false
-                        ToastService.toast(context, "Failed ❌")
+                        ToastService.toast(context, context.getString(R.string.failed))
                     },
                 )
             },
         ) {
-            Text("Unlock")
+            Text(R.string.unlock.str())
         }
 
         if (isLoading) {
