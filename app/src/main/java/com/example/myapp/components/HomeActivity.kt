@@ -19,31 +19,27 @@ import com.example.myapp.NotificationService
 import com.example.myapp.R
 import com.example.myapp.ToastService
 import com.example.myapp.parseString
+import com.example.myapp.routes.Routes
 import com.example.myapp.storage.UserPrefs
+import com.example.myapp.utils.str
 
 fun getDeviceName(): String {
     val manufacturer = Build.MANUFACTURER
     val model = Build.MODEL
-    return if (model.startsWith(manufacturer, ignoreCase = true)) {
-        model
-    } else {
-        "$manufacturer $model"
-    }
+    return if (model.startsWith(manufacturer, ignoreCase = true)) model else "$manufacturer $model"
 }
 
 @Composable
 fun HomeScreen(navController: NavController) {
     val deviceName = remember { getDeviceName() }
-    var text by remember { mutableStateOf("Hello Welcome!") }
+    var text = R.string.welcome.str()
     var input by remember { mutableStateOf(deviceName) }
     val context = LocalContext.current
     val savedUser = remember { UserPrefs.getUsername(context) }
 
     LaunchedEffect(Unit) {
         if (!savedUser.isNullOrBlank()) {
-            navController.navigate("dashboard/$savedUser") {
-                popUpTo("home") { inclusive = true }
-            }
+            navController.navigate("dashboard/$savedUser") { popUpTo(Routes.HOME) { inclusive = true } }
         }
     }
 
@@ -68,11 +64,11 @@ fun HomeScreen(navController: NavController) {
         Button(
             onClick = {
                 if (input.isBlank()) {
-                    ToastService.toast(context, "please enter valid user name")
+                    ToastService.toast(context, context.getString(R.string.valid_username))
                     NotificationService.showNotification(
                         context,
-                        "please enter valid user name",
-                        "error",
+                        context.getString(R.string.valid_username),
+                        context.getString(R.string.e),
                     )
                     return@Button
                 }
