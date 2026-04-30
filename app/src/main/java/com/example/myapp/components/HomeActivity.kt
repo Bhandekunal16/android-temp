@@ -65,16 +65,12 @@ fun HomeScreen(navController: NavController) {
             onClick = {
                 if (input.isBlank()) {
                     ToastService.toast(context, context.getString(R.string.valid_username))
-                    NotificationService.showNotification(
-                        context,
-                        context.getString(R.string.valid_username),
-                        context.getString(R.string.e),
-                    )
+                    NotificationService.showNotification(context, context.getString(R.string.valid_username), context.getString(R.string.e))
                     return@Button
                 }
                 UserPrefs.saveUsername(context, input)
-                ToastService.toast(context, "Hello 👋")
-                NotificationService.showNotification(context, "welcome $input", "Hello 👋")
+                ToastService.toast(context, context.getString(R.string.hello))
+                NotificationService.showNotification(context, "welcome $input", context.getString(R.string.hello))
                 text = "Hello Welcome $input!"
                 navController.navigate("dashboard/$input")
                 input = ""

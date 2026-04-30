@@ -35,5 +35,6 @@
     <string name="welcome">Hello Welcome!</string>
     <string name="valid_username">please enter valid user name</string>
     <string name="e">error</string>
+    <string name="hello">Hello 👋</string>
 
 </resources>
