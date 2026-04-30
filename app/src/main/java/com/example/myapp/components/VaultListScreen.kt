@@ -79,11 +79,15 @@ fun VaultListScreen(navController: NavController) {
             if (AppLockManager.isLocked && activity != null) {
                 showBiometricPrompt(
                     activity = activity,
-                    onSuccess = {
-                        AppLockManager.unlock()
+                    onSuccess = { AppLockManager.unlock() },
+                    onError = {
+                        ToastService.toast(context, context.getString(R.string.error))
+                        navController.popBackStack()
                     },
-                    onError = {},
-                    onFailed = {},
+                    onFailed = {
+                        ToastService.toast(context, context.getString(R.string.failed))
+                        navController.popBackStack()
+                    },
                 )
             }
         }
@@ -232,8 +236,14 @@ fun VaultListScreen(navController: NavController) {
                                             showBiometricPrompt(
                                                 activity = activity,
                                                 onSuccess = { navController.navigate("add?itemId=${item.id}") },
-                                                onError = { ToastService.toast(context, context.getString(R.string.auth_error)) },
-                                                onFailed = { ToastService.toast(context, context.getString(R.string.auth_failed)) },
+                                                onError = {
+                                                    ToastService.toast(context, context.getString(R.string.auth_error))
+                                                    navController.popBackStack()
+                                                },
+                                                onFailed = {
+                                                    ToastService.toast(context, context.getString(R.string.auth_failed))
+                                                    navController.popBackStack()
+                                                },
                                             )
                                         },
                                         modifier = Modifier.weight(1f),
@@ -254,8 +264,14 @@ fun VaultListScreen(navController: NavController) {
                                                     refreshTrigger++
                                                     ToastService.toast(context, context.getString(R.string.Deleted))
                                                 },
-                                                onError = { ToastService.toast(context, context.getString(R.string.auth_error)) },
-                                                onFailed = { ToastService.toast(context, context.getString(R.string.auth_failed)) },
+                                                onError = {
+                                                    ToastService.toast(context, context.getString(R.string.auth_error))
+                                                    navController.popBackStack()
+                                                },
+                                                onFailed = {
+                                                    ToastService.toast(context, context.getString(R.string.auth_failed))
+                                                    navController.popBackStack()
+                                                },
                                             )
                                         },
                                         modifier = Modifier.weight(1f),
