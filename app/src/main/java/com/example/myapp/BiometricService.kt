@@ -4,8 +4,11 @@ import android.content.Context
 import android.util.Log
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
+import androidx.compose.ui.res.stringResource
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
+import com.example.myapp.R
+import com.example.myapp.utils.str
 
 private const val TAG = "BiometricService"
 
@@ -19,22 +22,22 @@ fun isBiometricAvailable(context: Context): Boolean {
         )
     ) {
         BiometricManager.BIOMETRIC_SUCCESS -> {
-            Log.d(TAG, "Biometric/PIN ready ✅")
+            Log.d(TAG, context.getString(R.string.PIN_ready))
             true
         }
 
         BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> {
-            Log.e(TAG, "No biometric or credential enrolled ❌")
+            Log.e(TAG, context.getString(R.string.biometric_not_found))
             false
         }
 
         BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE -> {
-            Log.e(TAG, "No biometric hardware ❌")
+            Log.e(TAG, context.getString(R.string.no_hardware))
             false
         }
 
         else -> {
-            Log.e(TAG, "Unavailable ❌")
+            Log.e(TAG, context.getString(R.string.unavailable))
             false
         }
     }

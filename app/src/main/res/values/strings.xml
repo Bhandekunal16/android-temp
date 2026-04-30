@@ -25,9 +25,9 @@
     <string name="app_username">Username</string>
     <string name="app_password">Password</string>
     <string name="password_manager">Password Manager</string>
-    <string name="authentication_required">Authentication Required</string>  
-    <string name="activity_error">Activity error ❌</string>  
-    <string name="biometric_not_available">Biometric not available ❌</string>  
+    <string name="authentication_required">Authentication Required</string>
+    <string name="activity_error">Activity error ❌</string>
+    <string name="biometric_not_available">Biometric not available ❌</string>
     <string name="authenticated">Authenticated ✅</string>
     <string name="error">Error ❌</string>
     <string name="failed">Failed ❌</string>
@@ -41,15 +41,19 @@
     <string name="valid_username">please enter valid user name</string>
     <string name="e">error</string>
     <string name="hello">Hello 👋</string>
-    <string name="add_password_tooltip">Create, save and manage your passwords so that you can easily sign in to sites and apps.</string>
-    <string name="search_by_app">Search by app or username</string>  
-    <string name="not_found">No results found 🔍</string>  
-    <string name="toggle_password">Toggle Password</string>  
-    <string name="auth_error">Auth error ❌</string>  
-    <string name="auth_failed">Auth failed ❌</string> 
-    <string name="Deleted">Deleted ✅</string> 
+    <string name="add_password_tooltip">Create, save and manage your passwords so that you can
+        easily sign in to sites and apps.</string>
+    <string name="search_by_app">Search by app or username</string>
+    <string name="not_found">No results found 🔍</string>
+    <string name="toggle_password">Toggle Password</string>
+    <string name="auth_error">Auth error ❌</string>
+    <string name="auth_failed">Auth failed ❌</string>
+    <string name="Deleted">Deleted ✅</string>
     <string name="copied_to_clipboard">Copied to clipboard 📋</string>
-    
+    <string name="PIN_ready">Biometric/PIN ready ✅</string>
+    <string name="biometric_not_found">No biometric or credential enrolled ❌</string>
+    <string name="no_hardware">No biometric hardware ❌</string>
+    <string name="unavailable">Unavailable ❌</string>
 
 
 </resources>
