@@ -28,4 +28,9 @@
     <string name="error">Error ❌</string>
     <string name="failed">Failed ❌</string>
     <string name="unlock">Unlock</string>
+    <string name="password_vault">Password Vault</string>
+    <string name="password_vault_desc">View all saved passwords</string>
+    <string name="add_password">Add Password</string>
+    <string name="add_password_desc">Save new credentials securely</string>
+
 </resources>

@@ -8,11 +8,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.myapp.R
 import com.example.myapp.components.DashboardItemCard
 import com.example.myapp.parseString
+import com.example.myapp.routes.Routes
+import com.example.myapp.utils.str
+
+private fun Hight(input: Dp) = Modifier.height(input)
 
 @Composable
 fun DashboardScreen(
@@ -24,19 +29,15 @@ fun DashboardScreen(
     ) { padding ->
 
         Column(
-            modifier =
-                Modifier
-                    .fillMaxSize()
-                    .padding(padding)
-                    .padding(20.dp),
+            modifier = Modifier.fillMaxSize().padding(padding).padding(20.dp),
         ) {
             Text(
-                text = "Dashboard",
+                text = R.string.Dashboard.str(),
                 style = MaterialTheme.typography.headlineMedium,
                 color = MaterialTheme.colorScheme.onBackground,
             )
 
-            Spacer(modifier = Modifier.height(6.dp))
+            Spacer(modifier = Hight(6.dp))
 
             Text(
                 text = "Welcome back, \n $username 👋",
@@ -44,20 +45,20 @@ fun DashboardScreen(
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Hight(24.dp))
 
             DashboardItemCard(
-                title = "Password Vault",
-                description = "View all saved passwords",
-                onClick = { navController.navigate("vault") },
+                title = R.string.password_vault.str(),
+                description = R.string.password_vault_desc.str(),
+                onClick = { navController.navigate(Routes.VAULT) },
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Hight(16.dp))
 
             DashboardItemCard(
-                title = "Add Password",
-                description = "Save new credentials securely",
-                onClick = { navController.navigate("add") },
+                title = R.string.add_password.str(),
+                description = R.string.add_password_desc.str(),
+                onClick = { navController.navigate(Routes.ADD) },
             )
         }
     }
