@@ -14,15 +14,13 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.myapp.R
 import com.example.myapp.ToastService
+import com.example.myapp.utils.str
 import com.example.myapp.vault.VaultItem
 import com.example.myapp.vault.VaultManager
 
 private fun textAddon() = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp)
 
 private fun ContainerAddon() = Modifier.padding(16.dp)
-
-@Composable
-fun Int.str() = stringResource(this)
 
 @Composable
 fun AddPasswordScreen(
