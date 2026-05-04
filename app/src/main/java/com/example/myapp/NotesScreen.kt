@@ -33,9 +33,7 @@ fun NotesScreen(navController: NavController) {
 
     val padding = Modifier.padding(16.dp)
 
-    LaunchedEffect(refreshTrigger) {
-        notes = NotesManager.getAllDecrypted(context)
-    }
+    LaunchedEffect(refreshTrigger) { notes = NotesManager.getAllDecrypted(context) }
 
     Column(modifier = Modifier.fillMaxSize()) {
         Button(
@@ -48,19 +46,12 @@ fun NotesScreen(navController: NavController) {
         OutlinedTextField(
             value = searchQuery,
             onValueChange = { searchQuery = it },
-            modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
             placeholder = { Text(R.string.search_notes.str()) },
-            leadingIcon = {
-                Icon(Icons.Default.Search, contentDescription = null)
-            },
+            leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
             trailingIcon = {
                 if (searchQuery.isNotEmpty()) {
-                    IconButton(onClick = { searchQuery = "" }) {
-                        Icon(Icons.Default.Close, contentDescription = null)
-                    }
+                    IconButton(onClick = { searchQuery = "" }) { Icon(Icons.Default.Close, contentDescription = null) }
                 }
             },
             singleLine = true,
@@ -75,10 +66,7 @@ fun NotesScreen(navController: NavController) {
                 if (searchQuery.isBlank()) {
                     source
                 } else {
-                    source.filter {
-                        it.title.contains(searchQuery, true) ||
-                            it.content.contains(searchQuery, true)
-                    }
+                    source.filter { it.title.contains(searchQuery, true) || it.content.contains(searchQuery, true) }
                 }
             }
 
@@ -93,45 +81,24 @@ fun NotesScreen(navController: NavController) {
                 items(filteredNotes, key = { it.id }) { note: SecureNote ->
 
                     Card(
-                        modifier =
-                            Modifier
-                                .padding(12.dp)
-                                .fillMaxWidth(),
+                        modifier = Modifier.padding(12.dp).fillMaxWidth(),
                         shape = MaterialTheme.shapes.large,
                         elevation = CardDefaults.cardElevation(6.dp),
-                        colors =
-                            CardDefaults.cardColors(
-                                containerColor = MaterialTheme.colorScheme.surfaceVariant,
-                            ),
+                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
                     ) {
                         Column(modifier = padding) {
-                            Text(
-                                text = note.title,
-                                style = MaterialTheme.typography.titleMedium,
-                            )
-
+                            Text(text = note.title, style = MaterialTheme.typography.titleMedium)
                             Spacer(modifier = Modifier.height(6.dp))
-
                             Text(
                                 text = note.content.take(120) + if (note.content.length > 120) "..." else "",
                                 style = MaterialTheme.typography.bodyMedium,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                             )
-
                             Spacer(modifier = Modifier.height(10.dp))
-
-                            Row(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                            ) {
-                                Button(
-                                    onClick = {
-                                        navController.navigate("add_note?noteId=${note.id}")
-                                    },
-                                    modifier = Modifier.weight(1f),
-                                ) {
-                                    Icon(Icons.Default.Edit, contentDescription = null)
-                                }
+                            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp))
+                            {
+                                Button(onClick = { navController.navigate("add_note?noteId=${note.id}") }, modifier = Modifier.weight(1f))
+                                { Icon(Icons.Default.Edit, contentDescription = null) }
 
                                 Button(
                                     onClick = {
@@ -159,10 +126,7 @@ fun NotesScreen(navController: NavController) {
                                         )
                                     },
                                     modifier = Modifier.weight(1f),
-                                    colors =
-                                        ButtonDefaults.buttonColors(
-                                            containerColor = MaterialTheme.colorScheme.error,
-                                        ),
+                                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error),
                                 ) {
                                     Icon(Icons.Default.Delete, contentDescription = null)
                                 }
