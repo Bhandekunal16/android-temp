@@ -43,14 +43,9 @@ fun AddNoteScreen(
         }
     }
 
-    Column(
-        modifier =
-            Modifier
-                .fillMaxSize()
-                .padding(16.dp),
-    ) {
+    Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
         Text(
-            text = if (isEditMode) "Edit Note" else "Add Note",
+            text = if (isEditMode) R.string.edit_note.str() else R.string.add_note.str(),
             style = MaterialTheme.typography.headlineSmall,
         )
 
@@ -59,7 +54,7 @@ fun AddNoteScreen(
         TextField(
             value = title,
             onValueChange = { title = it },
-            label = { Text("Title") },
+            label = { Text(R.string.title.str()) },
             modifier = Modifier.fillMaxWidth(),
         )
 
@@ -68,11 +63,8 @@ fun AddNoteScreen(
         TextField(
             value = content,
             onValueChange = { content = it },
-            label = { Text("Content") },
-            modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .height(150.dp),
+            label = { Text(R.string.content.str()) },
+            modifier = Modifier.fillMaxWidth().height(150.dp),
         )
 
         Spacer(modifier = Modifier.height(20.dp))
@@ -91,14 +83,7 @@ fun AddNoteScreen(
                     showBiometricPrompt(
                         activity = activity,
                         onSuccess = {
-                            NotesManager.update(
-                                context,
-                                SecureNote(
-                                    id = noteId,
-                                    title = title,
-                                    content = content,
-                                ),
-                            )
+                            NotesManager.update(context, SecureNote(id = noteId, title = title, content = content))
                             ToastService.toast(context, context.getString(R.string.note_updated))
                             navController.navigate(Routes.NOTES)
                         },
@@ -112,13 +97,7 @@ fun AddNoteScreen(
                         },
                     )
                 } else {
-                    NotesManager.save(
-                        context,
-                        SecureNote(
-                            title = title,
-                            content = content,
-                        ),
-                    )
+                    NotesManager.save(context, SecureNote(title = title, content = content))
                     ToastService.toast(context, context.getString(R.string.note_added))
                     navController.navigate(Routes.NOTES)
                 }

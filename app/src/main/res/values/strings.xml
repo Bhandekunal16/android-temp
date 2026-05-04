@@ -3,6 +3,10 @@
     <string name="Dashboard">Dashboard</string>
     <string name="home">home</string>
     <string name="auth">auth</string>
+    <string name="title">Title</string>
+    <string name="content">Content</string>
+    
+    
     <string name="dashboardGreeting">Welcome, %1$s 🎉</string>
     <string name="enterUsername">Please Enter user name</string>
     <string name="DashboardNav">Submit</string>
@@ -61,5 +65,7 @@
     <string name="note_updated">Note Updated Successfully!</string>
     <string name="note_added">Note Added Successfully!</string>
     <string name="note_deleted">Note Deleted Successfully!</string>
+    <string name="edit_note">Edit Note</string>
+    <string name="add_note">Add Note</string>
 
 </resources>
