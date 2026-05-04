@@ -8,3 +8,9 @@ data class VaultItem(
     val username: String,
     val password: String,
 )
+
+data class SecureNote(
+    val id: String = UUID.randomUUID().toString(),
+    val title: String,
+    val content: String,
+)

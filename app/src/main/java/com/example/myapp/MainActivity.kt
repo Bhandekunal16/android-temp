@@ -22,6 +22,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavType
 import androidx.navigation.compose.*
 import androidx.navigation.navArgument
+import com.example.myapp.AddNoteScreen
+import com.example.myapp.NotesScreen
 import com.example.myapp.components.AddPasswordScreen
 import com.example.myapp.components.AuthScreen
 import com.example.myapp.components.DashboardScreen
@@ -59,6 +61,14 @@ fun MyApp() {
 
             composable("home") {
                 HomeScreen(navController)
+            }
+
+            composable("add_note") {
+                AddNoteScreen(navController)
+            }
+
+            composable("notes") {
+                NotesScreen(navController)
             }
 
             composable("vault") {

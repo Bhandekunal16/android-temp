@@ -60,6 +60,12 @@ fun DashboardScreen(
                 description = R.string.add_password_desc.str(),
                 onClick = { navController.navigate(Routes.ADD) },
             )
+
+            DashboardItemCard(
+                title = R.string.secure_notes.str(),
+                description = R.string.secure_notes_desc.str(),
+                onClick = { navController.navigate(Routes.NOTES) },
+            )
         }
     }
 }

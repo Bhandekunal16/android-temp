@@ -54,6 +54,8 @@
     <string name="biometric_not_found">No biometric or credential enrolled ❌</string>
     <string name="no_hardware">No biometric hardware ❌</string>
     <string name="unavailable">Unavailable ❌</string>
+    <string name="secure_notes">Add Note</string>
+    <string name="secure_notes_desc">Secure vault for notes.</string>
 
 
 </resources>
