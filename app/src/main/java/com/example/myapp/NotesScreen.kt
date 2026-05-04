@@ -146,6 +146,7 @@ fun NotesScreen(navController: NavController) {
                                             onSuccess = {
                                                 NotesManager.delete(context, note.id)
                                                 refreshTrigger++
+                                                ToastService.toast(context, context.getString(R.string.note_deleted))
                                             },
                                             onError = {
                                                 ToastService.toast(context, context.getString(R.string.auth_error))

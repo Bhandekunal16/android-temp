@@ -99,7 +99,7 @@ fun AddNoteScreen(
                                     content = content,
                                 ),
                             )
-
+                            ToastService.toast(context, context.getString(R.string.note_updated))
                             navController.navigate(Routes.NOTES)
                         },
                         onError = {
@@ -119,7 +119,7 @@ fun AddNoteScreen(
                             content = content,
                         ),
                     )
-
+                    ToastService.toast(context, context.getString(R.string.note_added))
                     navController.navigate(Routes.NOTES)
                 }
             },
