@@ -15,7 +15,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.myapp.components.findActivity
+import com.example.myapp.isBiometricAvailable
 import com.example.myapp.routes.Routes
+import com.example.myapp.showBiometricPrompt
 import com.example.myapp.utils.str
 import com.example.myapp.vault.NotesManager
 import com.example.myapp.vault.SecureNote
@@ -23,6 +26,7 @@ import com.example.myapp.vault.SecureNote
 @Composable
 fun NotesScreen(navController: NavController) {
     val context = LocalContext.current
+    val activity = context.findActivity()
     var notes by remember { mutableStateOf(emptyList<SecureNote>()) }
     var searchQuery by remember { mutableStateOf("") }
     var refreshTrigger by remember { mutableStateOf(0) }
@@ -131,8 +135,27 @@ fun NotesScreen(navController: NavController) {
 
                                 Button(
                                     onClick = {
-                                        NotesManager.delete(context, note.id)
-                                        refreshTrigger++
+                                        if (activity == null) return@Button
+
+                                        if (!isBiometricAvailable(context)) {
+                                            ToastService.toast(context, context.getString(R.string.biometric_not_available))
+                                            return@Button
+                                        }
+                                        showBiometricPrompt(
+                                            activity = activity,
+                                            onSuccess = {
+                                                NotesManager.delete(context, note.id)
+                                                refreshTrigger++
+                                            },
+                                            onError = {
+                                                ToastService.toast(context, context.getString(R.string.auth_error))
+                                                navController.popBackStack()
+                                            },
+                                            onFailed = {
+                                                ToastService.toast(context, context.getString(R.string.auth_failed))
+                                                navController.popBackStack()
+                                            },
+                                        )
                                     },
                                     modifier = Modifier.weight(1f),
                                     colors =

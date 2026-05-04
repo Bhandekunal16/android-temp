@@ -11,7 +11,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.myapp.R
+import com.example.myapp.ToastService
+import com.example.myapp.components.findActivity
+import com.example.myapp.isBiometricAvailable
 import com.example.myapp.routes.Routes
+import com.example.myapp.showBiometricPrompt
+import com.example.myapp.utils.str
 import com.example.myapp.vault.NotesManager
 import com.example.myapp.vault.SecureNote
 
@@ -21,7 +27,7 @@ fun AddNoteScreen(
     noteId: String?,
 ) {
     val context = LocalContext.current
-
+    val activity = context.findActivity()
     var title by remember { mutableStateOf("") }
     var content by remember { mutableStateOf("") }
     var isEditMode by remember { mutableStateOf(false) }
@@ -74,15 +80,36 @@ fun AddNoteScreen(
         Button(
             onClick = {
                 if (title.isBlank() || content.isBlank()) return@Button
+                if (activity == null) return@Button
+
+                if (!isBiometricAvailable(context)) {
+                    ToastService.toast(context, context.getString(R.string.biometric_not_available))
+                    return@Button
+                }
 
                 if (isEditMode && noteId != null) {
-                    NotesManager.update(
-                        context,
-                        SecureNote(
-                            id = noteId,
-                            title = title,
-                            content = content,
-                        ),
+                    showBiometricPrompt(
+                        activity = activity,
+                        onSuccess = {
+                            NotesManager.update(
+                                context,
+                                SecureNote(
+                                    id = noteId,
+                                    title = title,
+                                    content = content,
+                                ),
+                            )
+
+                            navController.navigate(Routes.NOTES)
+                        },
+                        onError = {
+                            ToastService.toast(context, context.getString(R.string.auth_error))
+                            navController.popBackStack()
+                        },
+                        onFailed = {
+                            ToastService.toast(context, context.getString(R.string.auth_failed))
+                            navController.popBackStack()
+                        },
                     )
                 } else {
                     NotesManager.save(
@@ -92,13 +119,13 @@ fun AddNoteScreen(
                             content = content,
                         ),
                     )
-                }
 
-                navController.popBackStack()
+                    navController.navigate(Routes.NOTES)
+                }
             },
             modifier = Modifier.fillMaxWidth(),
         ) {
-            Text(if (isEditMode) "Update" else "Save")
+            Text(if (isEditMode) R.string.Update.str() else R.string.Save.str())
         }
     }
 }

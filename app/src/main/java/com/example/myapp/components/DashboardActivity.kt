@@ -61,6 +61,8 @@ fun DashboardScreen(
                 onClick = { navController.navigate(Routes.ADD) },
             )
 
+            Spacer(modifier = Hight(16.dp))
+
             DashboardItemCard(
                 title = R.string.secure_notes.str(),
                 description = R.string.secure_notes_desc.str(),
