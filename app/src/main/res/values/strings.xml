@@ -56,6 +56,8 @@
     <string name="unavailable">Unavailable ❌</string>
     <string name="secure_notes">Add Note</string>
     <string name="secure_notes_desc">Secure vault for notes.</string>
+    <string name="search_notes">Search Notes</string>
+    <string name="no_notes">No notes available</string>
 
 
 </resources>

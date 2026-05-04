@@ -63,8 +63,18 @@ fun MyApp() {
                 HomeScreen(navController)
             }
 
-            composable("add_note") {
-                AddNoteScreen(navController)
+            composable(
+                route = "add_note?noteId={noteId}",
+                arguments =
+                    listOf(
+                        navArgument("noteId") {
+                            nullable = true
+                            defaultValue = null
+                        },
+                    ),
+            ) { backStackEntry ->
+                val noteId = backStackEntry.arguments?.getString("noteId")
+                AddNoteScreen(navController, noteId)
             }
 
             composable("notes") {

@@ -12,6 +12,11 @@ object NotesManager {
 
     private fun getFile(context: Context): File = File(context.filesDir, FILE_NAME)
 
+    fun getById(
+        context: Context,
+        id: String,
+    ): SecureNote? = getAllDecrypted(context).find { it.id == id }
+
     private fun writeJsonFile(
         input: List<SecureNote>,
         context: Context,
