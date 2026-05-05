@@ -1,6 +1,7 @@
 const express = require("express");
 const passwordManager = require("./password-manager/password-manager.service");
 const notesService = require("./notes/notes.service");
+const authService = require("./auth/auth.service");
 
 const app = express();
 app.use(express.json());
@@ -36,6 +37,17 @@ app.get("/notes/get", async (_, res) => {
 
 app.post("/notes/update", async (req, res) => {
   const data = await new notesService().update(req.body);
+  res.status(data.statusCode).send(data);
+});
+
+app.post("/auth/save", async (req, res) => {
+  const data = await new authService().save(req.body);
+  res.status(data.statusCode).send(data);
+});
+
+app.post("/auth/get", async (req, res) => {
+  const data = await new authService().get(req.body);
+  console.log(data, 0)
   res.status(data.statusCode).send(data);
 });
 
