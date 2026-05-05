@@ -46,8 +46,7 @@ app.post("/auth/save", async (req, res) => {
 });
 
 app.post("/auth/get", async (req, res) => {
-  const data = await new authService().get(req.body);
-  console.log(data, 0)
+  const data = await new authService().get(req.body)
   res.status(data.statusCode).send(data);
 });
 
