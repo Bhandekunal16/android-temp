@@ -12,3 +12,5 @@ Thumbs.db
 
 *.apk
 *.aab
+
+**/server/node_modules/*
