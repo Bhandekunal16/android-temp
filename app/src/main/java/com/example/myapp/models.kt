@@ -28,3 +28,8 @@ data class ApiResponse<T>(
     val statusCode: Int,
     val message: String,
 )
+
+data class PasswordResponse(
+    val status: Boolean,
+    val password: List<Password>,
+)

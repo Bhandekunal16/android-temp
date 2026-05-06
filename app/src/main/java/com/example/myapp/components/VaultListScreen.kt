@@ -4,6 +4,7 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
 import androidx.compose.material.icons.Icons
@@ -25,17 +26,23 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.navigation.NavController
 import com.example.myapp.AppLockManager
 import com.example.myapp.R
+import com.example.myapp.RetrofitClient
 import com.example.myapp.ToastService
 import com.example.myapp.components.findActivity
 import com.example.myapp.isBiometricAvailable
 import com.example.myapp.parseString
 import com.example.myapp.routes.Routes
 import com.example.myapp.showBiometricPrompt
+import com.example.myapp.storage.UserPrefs
 import com.example.myapp.utils.str
 import com.example.myapp.vault.PasswordStrength
 import com.example.myapp.vault.VaultItem
 import com.example.myapp.vault.VaultManager
 import com.example.myapp.vault.evaluatePassword
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @Composable
 fun VaultListScreen(navController: NavController) {
@@ -98,7 +105,34 @@ fun VaultListScreen(navController: NavController) {
     }
     LaunchedEffect(refreshTrigger) {
         try {
-            items = VaultManager.getAllDecrypted(context)
+            kotlinx.coroutines.CoroutineScope(kotlinx.coroutines.Dispatchers.IO).launch {
+                val id = UserPrefs.getId(context)
+                val finalId =
+                    id ?: java.util.UUID
+                        .randomUUID()
+                        .toString()
+
+                val response = RetrofitClient.api.getPasswords(finalId)
+                Log.d("VaultAPI", "Response code: $response")
+                Log.d("VaultAPI", "Response code: ${response.code()}")
+                if (response.code() == 200) {
+                    val passwordList =
+                        response.body()?.password ?: emptyList()
+
+                    items =
+                        passwordList.map { password ->
+
+                            VaultItem(
+                                id = password.id,
+                                app = password.app,
+                                username = password.username,
+                                password = password.password,
+                            )
+                        }
+                }
+            }
+
+            // items = VaultManager.getAllDecrypted(context)
         } catch (e: Exception) {
             e.printStackTrace()
             items = emptyList()

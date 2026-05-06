@@ -2,6 +2,8 @@ package com.example.myapp
 
 import retrofit2.Response
 import retrofit2.http.*
+import retrofit2.http.GET
+import retrofit2.http.Query
 
 interface ApiService {
     // PASSWORD
@@ -16,7 +18,9 @@ interface ApiService {
     ): Response<ApiResponse<Unit>>
 
     @GET("password/get")
-    suspend fun getPasswords(): Response<ApiResponse<List<Password>>>
+    suspend fun getPasswords(
+        @Query("id") id: String,
+    ): Response<PasswordResponse>
 
     // NOTES
     @POST("notes/save")

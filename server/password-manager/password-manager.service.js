@@ -52,9 +52,10 @@ class passwordManager {
           message: "bad request, please check request data!",
         };
       }
+      console.log("validatePassword---->", validatePassword);
 
-      let { id, ...primaryData } = data;
-      const presentInDbCheck = await this.get(primaryData);
+      const presentInDbCheck = await this.get(data);
+      console.log("presentInDbCheck---->", presentInDbCheck);
       if (presentInDbCheck.status) {
         return {
           status: false,
@@ -104,7 +105,7 @@ class passwordManager {
         { returnDocument: "after" },
       );
       return {
-        data : updated,
+        data: updated,
         status: true,
         statusCode: 200,
         message: "updated successfully!",
@@ -126,11 +127,27 @@ class passwordManager {
       const password = await passwordCollection.findOne(body);
 
       return !password
-        ? { status: true, password }
-        : { status: false, password: {} };
+        ? { status: true, password, statusCode: 200 }
+        : { status: false, password: {}, statusCode: 404 };
     } else {
-      return { status: false, password: {} };
+      return { status: false, password: {}, statusCode: 500 };
     }
+  }
+
+  async getById(body) {
+    
+      const passwordCollection = await this.passwords();
+      console.log({ id: body })
+      const password = await passwordCollection
+        .find({ id: body })
+        .sort({ _id: -1 })
+        .toArray();
+      console.log(password)
+
+      return password
+        ? { status: true, password, statusCode: 200 }
+        : { status: false, password: {}, statusCode: 404 };
+   
   }
 }
 
