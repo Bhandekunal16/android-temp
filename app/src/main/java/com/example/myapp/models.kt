@@ -1,16 +1,14 @@
-package com.example.myapp.vault
+package com.example.myapp
 
-import java.util.UUID
-
-data class VaultItem(
-    val id: String = UUID.randomUUID().toString(),
+data class Password(
+    val id: String,
     val app: String,
     val username: String,
     val password: String,
 )
 
-data class SecureNote(
-    val id: String = UUID.randomUUID().toString(),
+data class Note(
+    val id: String,
     val title: String,
     val content: String,
 )
@@ -20,7 +18,7 @@ data class AuthRequest(
 )
 
 data class ApiResponse<T>(
-    val data: T?,
+    val auth: Map<String, Any>?,
     val status: Boolean,
     val statusCode: Int,
     val message: String,

@@ -51,7 +51,7 @@ class authService {
       }
 
       const presentInDbCheck = await this.get(data);
-      if (!presentInDbCheck.status) {
+      if (presentInDbCheck.status) {
         return {
           status: false,
           statusCode: 409,
