@@ -79,13 +79,10 @@ fun HomeScreen(navController: NavController) {
 
                 kotlinx.coroutines.CoroutineScope(kotlinx.coroutines.Dispatchers.IO).launch {
                     val response = RetrofitClient.api.getAuth(AuthRequest(input))
-                    Log.d("API_DEBUG", "Response: $response")
                     val username = input
                     if (response.code() == 200) {
                         withContext(Dispatchers.Main) {
-                            Log.d("API_DEBUG", "Response: ${response.body()?.auth?._id}")
                             val userId = response.body()?.auth?._id ?: ""
-                            Log.d("API_DEBUG", "Response: $userId")
                             UserPrefs.saveUsername(context, input)
                             UserPrefs.saveId(context, userId)
                             ToastService.toast(context, context.getString(R.string.hello))
@@ -102,7 +99,6 @@ fun HomeScreen(navController: NavController) {
                                 if (response1.code() == 200) {
                                     withContext(Dispatchers.Main) {
                                         val userId = response1.body()?.auth?._id ?: ""
-                                        Log.d("API_DEBUG", "Response: $userId")
                                         UserPrefs.saveUsername(context, input)
                                         UserPrefs.saveId(context, userId)
                                         navController.navigate("dashboard/$username")

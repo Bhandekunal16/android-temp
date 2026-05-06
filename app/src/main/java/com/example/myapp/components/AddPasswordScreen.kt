@@ -108,8 +108,6 @@ fun AddPasswordScreen(
                                 RetrofitClient.api.updatePassword(request)
                             }
 
-                        Log.d("API_DEBUG", "Response: ${response.body()}")
-
                         if (response.body()?.status == true) {
                             withContext(Dispatchers.Main) {
                                 if (itemId == null) {
