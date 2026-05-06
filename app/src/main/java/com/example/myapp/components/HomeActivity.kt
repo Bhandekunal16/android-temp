@@ -79,22 +79,36 @@ fun HomeScreen(navController: NavController) {
 
                 kotlinx.coroutines.CoroutineScope(kotlinx.coroutines.Dispatchers.IO).launch {
                     val response = RetrofitClient.api.getAuth(AuthRequest(input))
+                    Log.d("API_DEBUG", "Response: $response")
+                    val username = input
                     if (response.code() == 200) {
                         withContext(Dispatchers.Main) {
+                            Log.d("API_DEBUG", "Response: ${response.body()?.auth?._id}")
+                            val userId = response.body()?.auth?._id ?: ""
+                            Log.d("API_DEBUG", "Response: $userId")
                             UserPrefs.saveUsername(context, input)
+                            UserPrefs.saveId(context, userId)
                             ToastService.toast(context, context.getString(R.string.hello))
                             NotificationService.showNotification(context, "welcome $input", context.getString(R.string.hello))
                             text = "Hello Welcome $input!"
-                            navController.navigate("dashboard/$input")
+                            navController.navigate("dashboard/$username")
                             input = ""
                         }
                     } else {
                         val saveRes = RetrofitClient.api.saveAuth(AuthRequest(input))
                         if (saveRes.code() == 200) {
                             withContext(Dispatchers.Main) {
-                                UserPrefs.saveUsername(context, input)
-                                navController.navigate("dashboard/$input")
-                                input = ""
+                                val response1 = RetrofitClient.api.getAuth(AuthRequest(input))
+                                if (response1.code() == 200) {
+                                    withContext(Dispatchers.Main) {
+                                        val userId = response1.body()?.auth?._id ?: ""
+                                        Log.d("API_DEBUG", "Response: $userId")
+                                        UserPrefs.saveUsername(context, input)
+                                        UserPrefs.saveId(context, userId)
+                                        navController.navigate("dashboard/$username")
+                                        input = ""
+                                    }
+                                }
                             }
                         } else {
                             withContext(Dispatchers.Main) {

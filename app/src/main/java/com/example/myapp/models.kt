@@ -17,8 +17,13 @@ data class AuthRequest(
     val username: String,
 )
 
+data class Auth(
+    val _id: String,
+    val username: String,
+)
+
 data class ApiResponse<T>(
-    val auth: Map<String, Any>?,
+    val auth: Auth?,
     val status: Boolean,
     val statusCode: Int,
     val message: String,
