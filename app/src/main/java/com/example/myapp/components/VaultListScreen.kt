@@ -2,6 +2,7 @@ package com.example.myapp.components
 
 import android.content.ClipData
 import android.content.ClipboardManager
+import android.net.Uri
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
@@ -269,7 +270,15 @@ fun VaultListScreen(navController: NavController) {
 
                                             showBiometricPrompt(
                                                 activity = activity,
-                                                onSuccess = { navController.navigate("add?itemId=${item.id}") },
+                                                onSuccess = {
+                                                    navController.navigate(
+                                                        "add/" +
+                                                            "${Uri.encode(item.id)}/" +
+                                                            "${Uri.encode(item.app)}/" +
+                                                            "${Uri.encode(item.username)}/" +
+                                                            "${Uri.encode(item.password)}",
+                                                    )
+                                                },
                                                 onError = {
                                                     ToastService.toast(context, context.getString(R.string.auth_error))
                                                 },

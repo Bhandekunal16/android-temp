@@ -85,7 +85,7 @@ fun MyApp() {
                 VaultListScreen(navController)
             }
             composable(
-                route = "add?itemId={itemId}",
+                route = "add/{itemId}/{app}/{username}/{password}",
                 arguments =
                     listOf(
                         navArgument("itemId") {
@@ -93,12 +93,24 @@ fun MyApp() {
                             nullable = true
                             defaultValue = null
                         },
+                        navArgument("app") {
+                            type = NavType.StringType
+                        },
+                        navArgument("username") {
+                            type = NavType.StringType
+                        },
+                        navArgument("password") {
+                            type = NavType.StringType
+                        },
                     ),
             ) { backStackEntry ->
 
                 val itemId = backStackEntry.arguments?.getString("itemId")
+                val app = backStackEntry.arguments?.getString("app") ?: ""
+                val username = backStackEntry.arguments?.getString("username") ?: ""
+                val password = backStackEntry.arguments?.getString("password") ?: ""
 
-                AddPasswordScreen(navController, itemId)
+                AddPasswordScreen(navController, itemId, app, username, password)
             }
 
             composable("dashboard/{username}") { backStackEntry ->

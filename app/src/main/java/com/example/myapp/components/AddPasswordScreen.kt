@@ -38,16 +38,20 @@ fun Password.toVaultItem(): VaultItem =
 @Composable
 fun AddPasswordScreen(
     navController: NavController,
-    itemId: String?,
+    itemId: String? = null,
+    app: String = "",
+    username: String = "",
+    password: String = "",
 ) {
     val context = LocalContext.current
-    val items = remember { VaultManager.getAllDecrypted(context) }
 
-    val existingItem = remember(itemId, items) { items.find { it.id == itemId } }
+    // val items = remember { VaultManager.getAllDecrypted(context) }
 
-    var app by remember { mutableStateOf(existingItem?.app ?: "") }
-    var username by remember { mutableStateOf(existingItem?.username ?: "") }
-    var password by remember { mutableStateOf(existingItem?.password ?: "") }
+    // val existingItem = remember(itemId, items) { items.find { it.id == itemId } }
+
+    var appText by remember { mutableStateOf(app) }
+    var usernameText by remember { mutableStateOf(username) }
+    var passwordText by remember { mutableStateOf(password) }
 
     Column(
         modifier = ContainerAddon(),
@@ -62,17 +66,17 @@ fun AddPasswordScreen(
 
         Spacer(modifier = ContainerAddon())
 
-        TextField(value = app, modifier = textAddon(), onValueChange = { app = it }, label = { Text(R.string.app_label.str()) })
+        TextField(value = appText, modifier = textAddon(), onValueChange = { appText = it }, label = { Text(R.string.app_label.str()) })
         TextField(
-            value = username,
+            value = usernameText,
             modifier = textAddon(),
-            onValueChange = { username = it },
+            onValueChange = { usernameText = it },
             label = { Text(R.string.app_username.str()) },
         )
         TextField(
-            value = password,
+            value = passwordText,
             modifier = textAddon(),
-            onValueChange = { password = it },
+            onValueChange = { passwordText = it },
             label = { Text(R.string.app_password.str()) },
         )
 
@@ -80,7 +84,7 @@ fun AddPasswordScreen(
 
         Button(
             onClick = {
-                if (app.isBlank() || username.isBlank() || password.isBlank()) {
+                if (appText.isBlank() || usernameText.isBlank() || passwordText.isBlank()) {
                     ToastService.toast(context, context.getString(R.string.ToolTip))
                     return@Button
                 }
@@ -96,9 +100,9 @@ fun AddPasswordScreen(
                         val request =
                             Password(
                                 id = finalId,
-                                app = app,
-                                username = username,
-                                password = password,
+                                app = appText,
+                                username = usernameText,
+                                password = passwordText,
                             )
 
                         val response =
