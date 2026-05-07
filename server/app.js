@@ -7,11 +7,28 @@ const Logger = require("log-byte");
 const app = express();
 app.use(express.json());
 app.use((req, res, next) => {
-  const { ip, method, body, url } = req;
-  Logger.info(`ip : ${ip}`);
-  Logger.info(`method : ${method}`);
-  Logger.info(`body : ${body}`);
-  Logger.info(`url : ${url}`);
+  res.on("finish", () => {
+    const { ip, method, body, url } = req;
+    const { statusCode } = res;
+
+    if (statusCode == 200) {
+      Logger.success(`ip : ${ip}`);
+      Logger.success(`method : ${method}`);
+      Logger.success(`body : ${body}`);
+      Logger.success(`url : ${url}`);
+    } else if (statusCode >= 400 && statusCode < 500) {
+      Logger.warn(`ip : ${ip}`);
+      Logger.warn(`method : ${method}`);
+      Logger.warn(`body : ${body}`);
+      Logger.warn(`url : ${url}`);
+    } else {
+      Logger.error(`ip : ${ip}`);
+      Logger.error(`method : ${method}`);
+      Logger.error(`body : ${body}`);
+      Logger.error(`url : ${url}`);
+    }
+  });
+
   next();
 });
 app.get("", (_, res) => {
