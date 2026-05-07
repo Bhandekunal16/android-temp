@@ -1,6 +1,7 @@
 package com.example.myapp
 
 import android.app.Activity
+import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -85,7 +86,7 @@ fun MyApp() {
                 VaultListScreen(navController)
             }
             composable(
-                route = "add/{itemId}/{app}/{username}/{password}",
+                route = "add?itemId={itemId}&app={app}&username={username}&password={password}",
                 arguments =
                     listOf(
                         navArgument("itemId") {
@@ -95,22 +96,37 @@ fun MyApp() {
                         },
                         navArgument("app") {
                             type = NavType.StringType
+                            defaultValue = ""
                         },
                         navArgument("username") {
                             type = NavType.StringType
+                            defaultValue = ""
                         },
                         navArgument("password") {
                             type = NavType.StringType
+                            defaultValue = ""
                         },
                     ),
             ) { backStackEntry ->
 
                 val itemId = backStackEntry.arguments?.getString("itemId")
-                val app = backStackEntry.arguments?.getString("app") ?: ""
-                val username = backStackEntry.arguments?.getString("username") ?: ""
-                val password = backStackEntry.arguments?.getString("password") ?: ""
 
-                AddPasswordScreen(navController, itemId, app, username, password)
+                val app =
+                    Uri.decode(backStackEntry.arguments?.getString("app") ?: "")
+
+                val username =
+                    Uri.decode(backStackEntry.arguments?.getString("username") ?: "")
+
+                val password =
+                    Uri.decode(backStackEntry.arguments?.getString("password") ?: "")
+
+                AddPasswordScreen(
+                    navController,
+                    itemId,
+                    app,
+                    username,
+                    password,
+                )
             }
 
             composable("dashboard/{username}") { backStackEntry ->

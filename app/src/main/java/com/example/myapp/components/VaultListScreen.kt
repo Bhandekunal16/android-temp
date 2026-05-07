@@ -132,8 +132,6 @@ fun VaultListScreen(navController: NavController) {
                         }
                 }
             }
-
-            // items = VaultManager.getAllDecrypted(context)
         } catch (e: Exception) {
             e.printStackTrace()
             items = emptyList()
@@ -272,11 +270,11 @@ fun VaultListScreen(navController: NavController) {
                                                 activity = activity,
                                                 onSuccess = {
                                                     navController.navigate(
-                                                        "add/" +
-                                                            "${Uri.encode(item.id)}/" +
-                                                            "${Uri.encode(item.app)}/" +
-                                                            "${Uri.encode(item.username)}/" +
-                                                            "${Uri.encode(item.password)}",
+                                                        "add?" +
+                                                            "itemId=${Uri.encode(item.id)}&" +
+                                                            "app=${Uri.encode(item.app)}&" +
+                                                            "username=${Uri.encode(item.username)}&" +
+                                                            "password=${Uri.encode(item.password)}",
                                                     )
                                                 },
                                                 onError = {

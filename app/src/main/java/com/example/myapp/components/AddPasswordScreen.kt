@@ -45,10 +45,6 @@ fun AddPasswordScreen(
 ) {
     val context = LocalContext.current
 
-    // val items = remember { VaultManager.getAllDecrypted(context) }
-
-    // val existingItem = remember(itemId, items) { items.find { it.id == itemId } }
-
     var appText by remember { mutableStateOf(app) }
     var usernameText by remember { mutableStateOf(username) }
     var passwordText by remember { mutableStateOf(password) }
