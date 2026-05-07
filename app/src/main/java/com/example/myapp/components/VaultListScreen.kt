@@ -50,11 +50,16 @@ fun VaultListScreen(navController: NavController) {
     val context = LocalContext.current
     val activity = context.findActivity()
     val title = R.string.add_password_tooltip.str()
+    val paddingSixteen = Modifier.padding(16.dp)
+    val lifecycleOwner = LocalLifecycleOwner.current
+    val id = UserPrefs.getId(context)
+    val randomId =
+        java.util.UUID
+            .randomUUID()
+            .toString()
     var items by remember { mutableStateOf<List<VaultItem>>(emptyList()) }
     var refreshTrigger by remember { mutableStateOf(0) }
-    val paddingSixteen = Modifier.padding(16.dp)
     var searchQuery by remember { mutableStateOf("") }
-    val lifecycleOwner = LocalLifecycleOwner.current
 
     LaunchedEffect(Unit) {
         while (true) {
@@ -99,36 +104,20 @@ fun VaultListScreen(navController: NavController) {
                 )
             }
         }
-
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { Text(R.string.Unlocking.str()) }
-
         return
     }
     LaunchedEffect(refreshTrigger) {
         try {
             kotlinx.coroutines.CoroutineScope(kotlinx.coroutines.Dispatchers.IO).launch {
-                val id = UserPrefs.getId(context)
-                val finalId =
-                    id ?: java.util.UUID
-                        .randomUUID()
-                        .toString()
-
+                val finalId = id ?: randomId
                 val response = RetrofitClient.api.getPasswords(finalId)
-                Log.d("VaultAPI", "Response code: $response")
-                Log.d("VaultAPI", "Response code: ${response.code()}")
-                if (response.code() == 200) {
-                    val passwordList =
-                        response.body()?.password ?: emptyList()
 
+                if (response.code() == 200) {
+                    val passwordList = response.body()?.password ?: emptyList()
                     items =
                         passwordList.map { password ->
-
-                            VaultItem(
-                                id = password.id,
-                                app = password.app,
-                                username = password.username,
-                                password = password.password,
-                            )
+                            VaultItem(id = password.id, app = password.app, username = password.username, password = password.password)
                         }
                 }
             }
