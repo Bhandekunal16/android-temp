@@ -52,10 +52,8 @@ class passwordManager {
           message: "bad request, please check request data!",
         };
       }
-      console.log("validatePassword---->", validatePassword);
 
       const presentInDbCheck = await this.get(data);
-      console.log("presentInDbCheck---->", presentInDbCheck);
       if (presentInDbCheck.status) {
         return {
           status: false,
@@ -135,14 +133,11 @@ class passwordManager {
   }
 
   async getById(body) {
-    
       const passwordCollection = await this.passwords();
-      console.log({ id: body })
       const password = await passwordCollection
         .find({ id: body })
         .sort({ _id: -1 })
         .toArray();
-      console.log(password)
 
       return password
         ? { status: true, password, statusCode: 200 }

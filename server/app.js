@@ -19,7 +19,6 @@ app.get("", (_, res) => {
 });
 
 app.post("/password/save", async (req, res) => {
-  console.log(req.body);
   const data = await new passwordManager().save(req.body);
   res.status(data.statusCode).send(data);
 });
@@ -35,7 +34,6 @@ app.get("/password/get", async (req, res) => {
     });
 
   const data = await new passwordManager().getById(id);
-  console.log(data)
   res.status(data.statusCode).send(data);
 });
 
