@@ -16,3 +16,9 @@ Thumbs.db
 **/server/node_modules/*
 
 **/server/application/*
+
+# Environment files (never commit secrets)
+**/.env
+**/.env.local
+**/.env.*.local
+!**/.env.example

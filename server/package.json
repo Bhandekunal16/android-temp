@@ -1,6 +1,11 @@
 {
+  "scripts": {
+    "start": "node app.js",
+    "dev": "node --watch app.js"
+  },
   "dependencies": {
     "cors": "^2.8.6",
+    "dotenv": "^16.6.1",
     "express": "^5.2.1",
     "log-byte": "^1.0.2",
     "mongodb": "^7.2.0"

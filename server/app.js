@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const express = require("express");
 const passwordManager = require("./password-manager/password-manager.service");
 const notesService = require("./notes/notes.service");
@@ -43,19 +45,12 @@ app.post("/password/save", async (req, res) => {
 app.get("/password/get", async (req, res) => {
   const { id } = req.query;
 
-  if (!id)
-    return res.status(400).send({
-      status: false,
-      message: "_id is required",
-      statusCode: 400,
-    });
+  if (!id) {
+    const data = await new passwordManager().getAll();
+    return res.status(data.statusCode).send(data);
+  }
 
   const data = await new passwordManager().getById(id);
-  res.status(data.statusCode).send(data);
-});
-
-app.get("/password/get", async (_, res) => {
-  const data = await new passwordManager().getAll();
   res.status(data.statusCode).send(data);
 });
 
@@ -94,6 +89,9 @@ app.post("/auth/get", async (req, res) => {
   res.status(data.statusCode).send(data);
 });
 
-app.listen(3000, "0.0.0.0", (e) => {
-  e ? Logger.error(e.message) : Logger.info("http://0.0.0.0:3000");
+const PORT = Number(process.env.PORT) || 3000;
+const HOST = process.env.HOST || "0.0.0.0";
+
+app.listen(PORT, HOST, (e) => {
+  e ? Logger.error(e.message) : Logger.info(`http://${HOST}:${PORT}`);
 });

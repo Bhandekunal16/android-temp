@@ -1,11 +1,14 @@
 const { MongoClient } = require("mongodb");
-const config = require("../config/config.json");
 
 class databaseService {
-  #url = config.mongoUrl;
+  #url;
   client;
 
   constructor() {
+    this.#url = process.env.MONGO_URL;
+    if (!this.#url) {
+      throw new Error("MONGO_URL is not set. Did you create server/.env?");
+    }
     this.client = new MongoClient(this.#url);
   }
 

@@ -1,6 +1,5 @@
 const databaseService = require("../core/database.service");
 const validatorService = require("../core/datavalidate.service");
-const config = require("../config/config.json");
 
 class notesService {
   #db;
@@ -18,7 +17,7 @@ class notesService {
   }
 
   #database = async () => {
-    return this.#db.getMongoDb(config.mongoDbName);
+    return this.#db.getMongoDb(process.env.MONGO_DB_NAME);
   };
 
   #collectionJoin = async (name) => {
