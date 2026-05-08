@@ -22,7 +22,7 @@ fun isBiometricAvailable(context: Context): Boolean {
         )
     ) {
         BiometricManager.BIOMETRIC_SUCCESS -> {
-            Log.d(TAG, context.getString(R.string.PIN_ready))
+            Log.d(TAG, context.getString(R.string.biometric_or_pin_ready))
             true
         }
 

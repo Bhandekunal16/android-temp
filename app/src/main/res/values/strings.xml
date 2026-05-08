@@ -1,71 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="Dashboard">Dashboard</string>
-    <string name="home">home</string>
-    <string name="auth">auth</string>
-    <string name="title">Title</string>
-    <string name="content">Content</string>
-    <string name="dashboardGreeting">Welcome, %1$s 🎉</string>
-    <string name="enterUsername">Please Enter user name</string>
-    <string name="DashboardNav">Submit</string>
-    <string name="Hide">Hide</string>
-    <string name="Show">Show</string>
-    <string name="Edit">Edit</string>
-    <string name="Save">Save</string>
-    <string name="Copy">Copy</string>
-    <string name="Search">Search</string>
-    <string name="Clear">Clear</string>
-    <string name="password">password</string>
-    <string name="Update">Update</string>
-    <string name="Delete">Delete</string>
-    <string name="AddPassword">Add Password</string>
-    <string name="NoPasswordsSaved">No passwords saved</string>
-    <string name="AddCredential">Add Credential</string>
-    <string name="EditCredential">Edit Credential</string>
-    <string name="ToolTip">Enter all Required data! ❌</string>
-    <string name="app_label">App</string>
-    <string name="app_username">Username</string>
-    <string name="app_password">Password</string>
+
+    <!-- App / general -->
     <string name="password_manager">Password Manager</string>
+    <string name="welcome">Hello Welcome!</string>
+    <string name="welcome_back">Welcome back,</string>
+    <string name="hello">Hello 👋</string>
+
+    <!-- Auth screen -->
     <string name="authentication_required">Authentication Required</string>
-    <string name="activity_error">Activity error ❌</string>
-    <string name="biometric_not_available">Biometric not available ❌</string>
+    <string name="unlock">Unlock</string>
+    <string name="unlocking">🔒 Unlocking...</string>
     <string name="authenticated">Authenticated ✅</string>
+    <string name="auth_error">Auth error ❌</string>
+    <string name="auth_failed">Auth failed ❌</string>
+    <string name="activity_error">Activity error ❌</string>
     <string name="error">Error ❌</string>
     <string name="failed">Failed ❌</string>
-    <string name="unlock">Unlock</string>
-    <string name="Unlocking">🔒 Unlocking...</string>
+
+    <!-- Biometrics -->
+    <string name="biometric_not_available">Biometric not available ❌</string>
+    <string name="biometric_not_found">No biometric or credential enrolled ❌</string>
+    <string name="biometric_or_pin_ready">Biometric/PIN ready ✅</string>
+    <string name="no_hardware">No biometric hardware ❌</string>
+    <string name="unavailable">Unavailable ❌</string>
+
+    <!-- Home / login -->
+    <string name="enter_username">Please enter username</string>
+    <string name="valid_username">Please enter a valid username</string>
+    <string name="submit_button">Submit</string>
+
+    <!-- Dashboard -->
+    <string name="dashboard">Dashboard</string>
+    <string name="dashboard_greeting">Welcome, %1$s 🎉</string>
     <string name="password_vault">Password Vault</string>
     <string name="password_vault_desc">View all saved passwords</string>
     <string name="add_password">Add Password</string>
     <string name="add_password_desc">Save new credentials securely</string>
-    <string name="welcome">Hello Welcome!</string>
-    <string name="valid_username">please enter valid user name</string>
-    <string name="e">error</string>
-    <string name="hello">Hello 👋</string>
-    <string name="add_password_tooltip">Create, save and manage your passwords so that you can
-        easily sign in to sites and apps.</string>
-    <string name="search_by_app">Search by app or username</string>
-    <string name="not_found">No results found 🔍</string>
-    <string name="toggle_password">Toggle Password</string>
-    <string name="auth_error">Auth error ❌</string>
-    <string name="auth_failed">Auth failed ❌</string>
-    <string name="Deleted">Deleted ✅</string>
-    <string name="copied_to_clipboard">Copied to clipboard 📋</string>
-    <string name="PIN_ready">Biometric/PIN ready ✅</string>
-    <string name="biometric_not_found">No biometric or credential enrolled ❌</string>
-    <string name="no_hardware">No biometric hardware ❌</string>
-    <string name="unavailable">Unavailable ❌</string>
     <string name="secure_notes">Notes</string>
     <string name="secure_notes_desc">Secure vault for notes.</string>
+
+    <!-- Vault / passwords -->
+    <string name="add_credential">Add Credential</string>
+    <string name="edit_credential">Edit Credential</string>
+    <string name="add_password_tooltip">Create, save and manage your passwords so that you can easily sign in to sites and apps.</string>
+    <string name="search_by_app">Search by app or username</string>
+    <string name="no_passwords_saved">No passwords saved</string>
+    <string name="not_found">No results found 🔍</string>
+    <string name="toggle_password">Toggle Password</string>
+    <string name="required_fields_missing">Enter all required data! ❌</string>
+    <string name="app_label">App</string>
+    <string name="app_username">Username</string>
+    <string name="app_password">Password</string>
+    <string name="clipboard_label_password">password</string>
+    <string name="copied_to_clipboard">Copied to clipboard 📋</string>
+
+    <!-- Notes -->
+    <string name="title_label">Title</string>
+    <string name="content_label">Content</string>
+    <string name="add_note">Add Note</string>
+    <string name="edit_note">Edit Note</string>
     <string name="search_notes">Search Notes</string>
     <string name="no_notes">No notes available</string>
-    <string name="note_updated">Note Updated Successfully!</string>
     <string name="note_added">Note Added Successfully!</string>
+    <string name="note_updated">Note Updated Successfully!</string>
     <string name="note_deleted">Note Deleted Successfully!</string>
-    <string name="edit_note">Edit Note</string>
-    <string name="add_note">Add Note</string>
-    <string name="welcome_back">Welcome back,</string>
     <string name="sync_failed">Saved locally, but server sync failed</string>
+
+    <!-- Common actions -->
+    <string name="save">Save</string>
+    <string name="update">Update</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="deleted">Deleted ✅</string>
+    <string name="copy">Copy</string>
+    <string name="search">Search</string>
+    <string name="clear">Clear</string>
+    <string name="hide">Hide</string>
+    <string name="show">Show</string>
 
 </resources>

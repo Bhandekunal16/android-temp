@@ -94,7 +94,7 @@ fun AddNoteScreen(
         TextField(
             value = title,
             onValueChange = { title = it },
-            label = { Text(R.string.title.str()) },
+            label = { Text(R.string.title_label.str()) },
             modifier = Modifier.fillMaxWidth(),
             enabled = !isSaving,
         )
@@ -102,7 +102,7 @@ fun AddNoteScreen(
         TextField(
             value = content,
             onValueChange = { content = it },
-            label = { Text(R.string.content.str()) },
+            label = { Text(R.string.content_label.str()) },
             modifier = Modifier.fillMaxWidth().height(150.dp),
             enabled = !isSaving,
         )
@@ -138,7 +138,7 @@ fun AddNoteScreen(
             modifier = Modifier.fillMaxWidth(),
             enabled = !isSaving,
         ) {
-            Text(if (isEditMode) R.string.Update.str() else R.string.Save.str())
+            Text(if (isEditMode) R.string.update.str() else R.string.save.str())
         }
     }
 }

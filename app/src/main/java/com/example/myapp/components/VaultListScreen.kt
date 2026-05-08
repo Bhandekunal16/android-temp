@@ -105,7 +105,7 @@ fun VaultListScreen(navController: NavController) {
                 )
             }
         }
-        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { Text(R.string.Unlocking.str()) }
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { Text(R.string.unlocking.str()) }
         return
     }
     LaunchedEffect(refreshTrigger) {
@@ -130,17 +130,17 @@ fun VaultListScreen(navController: NavController) {
 
     Column(modifier = Modifier.fillMaxSize()) {
         Button(onClick = { navController.navigate(Routes.ADD) }, modifier = paddingSixteen.align(Alignment.End))
-        { Text(text = stringResource(R.string.AddPassword)) }
+        { Text(text = stringResource(R.string.add_password)) }
         Text(text = title, modifier = paddingSixteen, color = MaterialTheme.colorScheme.primary)
         OutlinedTextField(
             value = searchQuery,
             onValueChange = { searchQuery = it },
             modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
             placeholder = { Text(context.getString(R.string.search_by_app)) },
-            leadingIcon = { Icon(Icons.Default.Search, contentDescription = R.string.Search.str()) },
+            leadingIcon = { Icon(Icons.Default.Search, contentDescription = R.string.search.str()) },
             trailingIcon = {
                 if (searchQuery.isNotEmpty()) {
-                    IconButton(onClick = { searchQuery = "" }) { Icon(Icons.Default.Close, contentDescription = R.string.Clear.str()) }
+                    IconButton(onClick = { searchQuery = "" }) { Icon(Icons.Default.Close, contentDescription = R.string.clear.str()) }
                 }
             },
             singleLine = true,
@@ -148,7 +148,7 @@ fun VaultListScreen(navController: NavController) {
         )
         if (items.isEmpty()) {
             Text(
-                text = stringResource(R.string.NoPasswordsSaved),
+                text = stringResource(R.string.no_passwords_saved),
                 modifier = paddingSixteen,
                 color = MaterialTheme.colorScheme.surfaceVariant,
             )
@@ -167,7 +167,7 @@ fun VaultListScreen(navController: NavController) {
                 }
             if (filteredItems.isEmpty()) {
                 Text(
-                    text = if (searchQuery.isBlank()) stringResource(R.string.NoPasswordsSaved) else R.string.not_found.str(),
+                    text = if (searchQuery.isBlank()) stringResource(R.string.no_passwords_saved) else R.string.not_found.str(),
                     modifier = paddingSixteen,
                     color = MaterialTheme.colorScheme.surfaceVariant,
                 )
@@ -276,7 +276,7 @@ fun VaultListScreen(navController: NavController) {
                                             )
                                         },
                                         modifier = Modifier.weight(1f),
-                                    ) { Icon(Icons.Default.Edit, contentDescription = R.string.Edit.str()) }
+                                    ) { Icon(Icons.Default.Edit, contentDescription = R.string.edit.str()) }
                                     Button(
                                         onClick = {
                                             if (activity == null) return@Button
@@ -301,7 +301,7 @@ fun VaultListScreen(navController: NavController) {
                                                             if (response.code() == 200) {
                                                                 VaultManager.delete(context, items, item.id, item.username)
                                                                 refreshTrigger++
-                                                                ToastService.toast(context, context.getString(R.string.Deleted))
+                                                                ToastService.toast(context, context.getString(R.string.deleted))
                                                             } else {
                                                                 ToastService.toast(context, context.getString(R.string.auth_error))
                                                                 navController.popBackStack()
@@ -321,7 +321,7 @@ fun VaultListScreen(navController: NavController) {
                                         },
                                         modifier = Modifier.weight(1f),
                                         colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error),
-                                    ) { Icon(Icons.Default.Delete, contentDescription = R.string.Delete.str()) }
+                                    ) { Icon(Icons.Default.Delete, contentDescription = R.string.delete.str()) }
                                     Button(
                                         onClick = {
                                             if (activity == null) return@Button
@@ -339,7 +339,7 @@ fun VaultListScreen(navController: NavController) {
                                                             android.content.Context.CLIPBOARD_SERVICE,
                                                         ) as ClipboardManager
                                                     clipboard.setPrimaryClip(
-                                                        ClipData.newPlainText(context.getString(R.string.password), item.password),
+                                                        ClipData.newPlainText(context.getString(R.string.clipboard_label_password), item.password),
                                                     )
                                                     ToastService.toast(context, context.getString(R.string.copied_to_clipboard))
                                                     Handler(Looper.getMainLooper()).postDelayed({
@@ -356,7 +356,7 @@ fun VaultListScreen(navController: NavController) {
                                             )
                                         },
                                         modifier = Modifier.weight(1f),
-                                    ) { Icon(Icons.Default.ContentCopy, contentDescription = R.string.Copy.str()) }
+                                    ) { Icon(Icons.Default.ContentCopy, contentDescription = R.string.copy.str()) }
                                 }
                             }
                         }

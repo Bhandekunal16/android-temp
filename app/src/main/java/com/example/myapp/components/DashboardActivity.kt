@@ -22,7 +22,7 @@ fun DashboardScreen(
 
         Column(modifier = Modifier.fillMaxSize().padding(padding).padding(horizontal = 20.dp, vertical = 16.dp)) {
             Text(
-                text = R.string.Dashboard.str(),
+                text = R.string.dashboard.str(),
                 style = MaterialTheme.typography.headlineLarge.copy(fontWeight = FontWeight.Bold),
                 color = MaterialTheme.colorScheme.onBackground,
             )

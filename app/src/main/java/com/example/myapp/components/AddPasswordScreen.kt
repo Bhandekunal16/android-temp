@@ -55,7 +55,7 @@ fun AddPasswordScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
-            text = if (itemId == null) R.string.AddCredential.str() else R.string.EditCredential.str(),
+            text = if (itemId == null) R.string.add_credential.str() else R.string.edit_credential.str(),
             style = MaterialTheme.typography.headlineMedium,
             color = MaterialTheme.colorScheme.primary,
         )
@@ -81,7 +81,7 @@ fun AddPasswordScreen(
         Button(
             onClick = {
                 if (appText.isBlank() || usernameText.isBlank() || passwordText.isBlank()) {
-                    ToastService.toast(context, context.getString(R.string.ToolTip))
+                    ToastService.toast(context, context.getString(R.string.required_fields_missing))
                     return@Button
                 }
 
@@ -132,7 +132,7 @@ fun AddPasswordScreen(
                 }
             },
         ) {
-            Text(if (itemId == null) R.string.Save.str() else R.string.Update.str())
+            Text(if (itemId == null) R.string.save.str() else R.string.update.str())
         }
     }
 }

@@ -66,14 +66,14 @@ fun HomeScreen(navController: NavController) {
         TextField(
             value = input,
             onValueChange = { input = it },
-            label = { Text(stringResource(R.string.enterUsername)) },
+            label = { Text(stringResource(R.string.errornter_username)) },
         )
 
         Button(
             onClick = {
                 if (input.isBlank()) {
                     ToastService.toast(context, context.getString(R.string.valid_username))
-                    NotificationService.showNotification(context, context.getString(R.string.valid_username), context.getString(R.string.e))
+                    NotificationService.showNotification(context, context.getString(R.string.valid_username), context.getString(R.string.error))
                     return@Button
                 }
 
@@ -108,7 +108,7 @@ fun HomeScreen(navController: NavController) {
                             }
                         } else {
                             withContext(Dispatchers.Main) {
-                                NotificationService.showNotification(context, "something went's wrong", context.getString(R.string.e))
+                                NotificationService.showNotification(context, "something went's wrong", context.getString(R.string.error))
                             }
                         }
                     }
@@ -116,7 +116,7 @@ fun HomeScreen(navController: NavController) {
             },
             enabled = input.isNotBlank(),
         ) {
-            Text(parseString(R.string.DashboardNav))
+            Text(parseString(R.string.submit_button))
         }
     }
 }
