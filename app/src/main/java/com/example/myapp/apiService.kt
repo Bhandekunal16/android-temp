@@ -17,6 +17,11 @@ interface ApiService {
         @Body body: Password,
     ): Response<ApiResponse<Unit>>
 
+    @POST("password/delete")
+    suspend fun deletePassword(
+        @Body body: deleteRequest,
+    ): Response<ApiResponse<Unit>>
+
     @GET("password/get")
     suspend fun getPasswords(
         @Query("id") id: String,

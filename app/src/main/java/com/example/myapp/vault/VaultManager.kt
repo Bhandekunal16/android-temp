@@ -80,10 +80,12 @@ object VaultManager {
 
     fun delete(
         context: Context,
+        items: List<VaultItem>,
         itemId: String,
+        username: String,
     ) {
-        val list = getAll(context).toMutableList()
-        val updatedList = list.filter { it.id != itemId }
+        // val list = getAll(context).toMutableList()
+        val updatedList = items.filter { it.id != itemId && it.username != username }
         writeJsonFile(updatedList, context)
     }
 }

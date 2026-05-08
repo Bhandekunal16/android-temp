@@ -64,6 +64,11 @@ app.post("/password/update", async (req, res) => {
   res.status(data.statusCode).send(data);
 });
 
+app.post("/password/delete", async (req, res) => {
+  const data = await new passwordManager().delete(req.body);
+  res.status(data.statusCode).send(data);
+});
+
 app.post("/notes/save", async (req, res) => {
   const data = await new notesService().save(req.body);
   res.status(data.statusCode).send(data);

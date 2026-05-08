@@ -30,6 +30,7 @@ import com.example.myapp.R
 import com.example.myapp.RetrofitClient
 import com.example.myapp.ToastService
 import com.example.myapp.components.findActivity
+import com.example.myapp.deleteRequest
 import com.example.myapp.isBiometricAvailable
 import com.example.myapp.parseString
 import com.example.myapp.routes.Routes
@@ -172,7 +173,7 @@ fun VaultListScreen(navController: NavController) {
                 )
             } else {
                 LazyColumn {
-                    items(filteredItems, key = { it.id }) { item ->
+                    items(filteredItems) { item ->
                         var showPassword by remember(item.id) { mutableStateOf(false) }
                         val strengthResult = remember(item.password) { evaluatePassword(item.password) }
                         val (label, color) =
@@ -288,9 +289,25 @@ fun VaultListScreen(navController: NavController) {
                                             showBiometricPrompt(
                                                 activity = activity,
                                                 onSuccess = {
-                                                    VaultManager.delete(context, item.id)
-                                                    refreshTrigger++
-                                                    ToastService.toast(context, context.getString(R.string.Deleted))
+                                                    kotlinx.coroutines.CoroutineScope(kotlinx.coroutines.Dispatchers.IO).launch {
+                                                        val response =
+                                                            RetrofitClient.api.deletePassword(
+                                                                deleteRequest(
+                                                                    id = item.id,
+                                                                    username = item.username,
+                                                                ),
+                                                            )
+                                                        withContext(Dispatchers.Main) {
+                                                            if (response.code() == 200) {
+                                                                VaultManager.delete(context, items, item.id, item.username)
+                                                                refreshTrigger++
+                                                                ToastService.toast(context, context.getString(R.string.Deleted))
+                                                            } else {
+                                                                ToastService.toast(context, context.getString(R.string.auth_error))
+                                                                navController.popBackStack()
+                                                            }
+                                                        }
+                                                    }
                                                 },
                                                 onError = {
                                                     ToastService.toast(context, context.getString(R.string.auth_error))

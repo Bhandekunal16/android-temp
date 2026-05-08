@@ -114,6 +114,27 @@ class passwordManager {
     }
   }
 
+  async delete(body) {
+    try {
+      const passwordCollection = await this.passwords();
+      const deleteCheck = await passwordCollection.deleteOne(body);
+      return deleteCheck.acknowledged
+        ? {
+            status: true,
+            message: "password deletion successful",
+            statusCode: 200,
+          }
+        : {
+            status: false,
+            message: "password deletion failed",
+            statusCode: 404,
+          };
+    } catch (e) {
+      const { message } = e;
+      return { status: false, message, statusCode: 500 };
+    }
+  }
+
   async get(body) {
     const checkMissing = await this.#validator.checkMissing(
       Object.keys(body),
@@ -133,16 +154,15 @@ class passwordManager {
   }
 
   async getById(body) {
-      const passwordCollection = await this.passwords();
-      const password = await passwordCollection
-        .find({ id: body })
-        .sort({ _id: -1 })
-        .toArray();
+    const passwordCollection = await this.passwords();
+    const password = await passwordCollection
+      .find({ id: body })
+      .sort({ _id: -1 })
+      .toArray();
 
-      return password
-        ? { status: true, password, statusCode: 200 }
-        : { status: false, password: {}, statusCode: 404 };
-   
+    return password
+      ? { status: true, password, statusCode: 200 }
+      : { status: false, password: {}, statusCode: 404 };
   }
 }
 

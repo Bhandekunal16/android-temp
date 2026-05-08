@@ -22,6 +22,11 @@ data class Auth(
     val username: String,
 )
 
+data class deleteRequest(
+    val id: String,
+    val username: String,
+)
+
 data class ApiResponse<T>(
     val auth: Auth?,
     val status: Boolean,
